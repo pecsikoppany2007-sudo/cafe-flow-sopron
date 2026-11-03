@@ -27,16 +27,18 @@
   var T = {
     de: {
       'gate.go': 'Eintreten',
-      'rev.title': 'Bewertungen', 'rev.g': '1026 Bewertungen auf Google', 'rev.t': '6 Bewertungen auf Tripadvisor', 'rev.write': 'Bewertung schreiben', 'rev.all': 'Bewertungen auf Google',
-      'rev.d1': 'Tripadvisor, März 2026', 'rev.d2': 'Tripadvisor, August 2026', 'rev.note': 'Originaltext der Gäste, auf Englisch.', 'idx.rev': 'Bewertungen',
+      'rev.title': 'Das schreiben unsere Gäste', 'rev.score': 'auf Google, über 1000 Bewertungen', 'rev.src': 'Google-Bewertung',
+      'rev.q1': 'Gemütlicher, moderner Ort mit angenehmer Hintergrundmusik, tollem Frühstück, gutem Kaffee und freundlichem Personal. Ein super Start in den Tag!',
+      'rev.q2': 'Mein Lieblingscafé in Sopron: riesige Auswahl, freundliches und fachlich gut geschultes Personal, gute Lage, gute Stimmung.',
+      'rev.q3': 'Freundlicher Service, super Auswahl! Wir sind beim Stadtbummel vorbeigekommen und am nächsten Tag gleich noch einmal, so gut war es!',
+      'rev.note': 'Auf Ungarisch geschrieben, hier übersetzt.', 'rev.ask': 'Warst du bei uns? Schreib uns, wie es war.', 'rev.write': 'Bewertung schreiben', 'idx.rev': 'Bewertungen',
       'skip': 'Zum Inhalt',
       'nav.menu': 'Speisekarte', 'nav.coffee': 'Kaffee', 'nav.upstairs': 'Obergeschoss', 'nav.hours': 'Öffnungszeiten', 'nav.open': 'Menü',
       'hero.title': 'Café an der Grabenrunde in Sopron', 'hero.addr': 'Várkerület 53.', 'hero.menu': 'Speisekarte', 'hero.route': 'Route planen',
       'intro.title': 'Seit 2018 an der Grabenrunde',
       'intro.p1': '2018 haben wir hier eröffnet und fünf Jahre lang als Partner von Cafe Frei gearbeitet. Seit wir selbstständig sind, heißen wir Cafe Flow und stellen die Getränkekarte selbst zusammen.',
       'intro.p2': 'Im Erdgeschoss stehen neben der Theke blaue Samtbänke vor den bemalten Wandpaneelen. Die goldfarbene Wendeltreppe führt ins Obergeschoss, dort richten wir auch Feiern aus.',
-      'intro.rating': 'auf Google, aus 1026 Bewertungen',
-      'cap.croissant': 'Croissant und Kaffee auf der blauen Bank',
+      'intro.rating': 'auf Google, aus über 1000 Bewertungen',
       'coffee.title': 'Kaffee aus zwei Röstungen',
       'coffee.p1': 'Unseren Kaffee röstet CrackerJack Coffee Roasters. Jeden klassischen Kaffee bekommst du aus dunkler oder heller Röstung, die helle kostet 40 bis 100 Forint mehr.',
       'coffee.roast': 'Röstung', 'coffee.dark': 'Dunkle Röstung', 'coffee.light': 'Helle Röstung',
@@ -60,7 +62,7 @@
       'hours.title': 'Öffnungszeiten', 'hours.mt': 'Montag–Donnerstag', 'hours.fr': 'Freitag', 'hours.sa': 'Samstag', 'hours.su': 'Sonntag',
       'contact.title': 'Kontakt', 'contact.addr': 'Adresse', 'contact.mail': 'E-Mail', 'contact.delivery': 'Lieferung',
       'foot.company': 'Betreiber: Cafe World Kft.', 'foot.photos': 'Fotos: Cafe Flow (cafeflow.hu)', 'foot.demo': 'Demoseite, nicht die offizielle Website von Cafe Flow.',
-      'alt.pult': 'Die Theke mit der Wendeltreppe und der Bananenstaude', 'alt.croissant': 'Croissant und Kaffee auf der blauen Samtbank', 'alt.latte': 'Latte Art neben einem Croissant', 'alt.csiga': 'Die Wendeltreppe und die Leopardenfigur', 'alt.emelet': 'Der helle Raum im Obergeschoss', 'alt.kulonterem': 'Der separate Raum mit Tapete und Eichenkommode', 'alt.terasz': 'Die Terrasse an der Grabenrunde unter dem blauen Schild', 'alt.csomagok': 'Kaffee- und Teepackungen von Cafe Flow', 'alt.falfestes': 'Das Erdgeschoss bei den bemalten Wandpaneelen, mit blauer Samtbank',
+      'alt.pult': 'Die Theke mit der Wendeltreppe und der Bananenstaude', 'alt.latte': 'Latte Art neben einem Croissant', 'alt.csiga': 'Die Wendeltreppe und die Leopardenfigur', 'alt.emelet': 'Der helle Raum im Obergeschoss', 'alt.kulonterem': 'Der separate Raum mit Tapete und Eichenkommode', 'alt.terasz': 'Die Terrasse an der Grabenrunde unter dem blauen Schild', 'alt.csomagok': 'Kaffee- und Teepackungen von Cafe Flow', 'alt.falfestes': 'Das Erdgeschoss bei den bemalten Wandpaneelen, mit blauer Samtbank',
       'today': 'Heute {h}', 'closedToday': 'Heute geschlossen',
       'now.open': 'Jetzt geöffnet, bis {c}.', 'now.before': 'Jetzt geschlossen, heute öffnen wir um {o}.', 'now.after': 'Jetzt geschlossen, morgen öffnen wir um {o}.',
       'tour.title': 'Rundgang', 'tour.p': 'Ein paar Bilder vom Café, von der Theke bis zur Terrasse.',
@@ -72,16 +74,18 @@
     },
     en: {
       'gate.go': 'Come in',
-      'rev.title': 'Reviews', 'rev.g': '1026 reviews on Google', 'rev.t': '6 reviews on Tripadvisor', 'rev.write': 'Write a review', 'rev.all': 'Reviews on Google',
-      'rev.d1': 'Tripadvisor, March 2026', 'rev.d2': 'Tripadvisor, August 2026', 'rev.note': 'Quoted as the guests wrote them.', 'idx.rev': 'Reviews',
+      'rev.title': 'What our guests say', 'rev.score': 'on Google, over 1,000 reviews', 'rev.src': 'Google review',
+      'rev.q1': 'A cosy, modern place with pleasant background music, great breakfasts, good coffee and friendly staff. A great way to start the day!',
+      'rev.q2': 'My favourite café in Sopron: a huge selection, kind and well-trained staff, a good spot with a good atmosphere.',
+      'rev.q3': 'Friendly service, great selection! We popped in while sightseeing and came back again the next day, it was that good!',
+      'rev.note': 'Written in Hungarian, translated here.', 'rev.ask': 'Been to see us? Tell us how it was.', 'rev.write': 'Write a review', 'idx.rev': 'Reviews',
       'skip': 'Skip to content',
       'nav.menu': 'Menu', 'nav.coffee': 'Coffee', 'nav.upstairs': 'Upstairs', 'nav.hours': 'Opening hours', 'nav.open': 'Menu',
       'hero.title': 'Café on Várkerület in Sopron', 'hero.addr': 'Várkerület 53.', 'hero.menu': 'Menu', 'hero.route': 'Directions',
       'intro.title': 'On Várkerület since 2018',
       'intro.p1': 'We opened here in 2018 and spent five years as a Cafe Frei partner. Since going independent we have been called Cafe Flow, and we put the drinks list together ourselves.',
       'intro.p2': 'Downstairs, next to the counter, blue velvet benches line the painted wall panels. The gold spiral staircase leads upstairs, where we also host events.',
-      'intro.rating': 'on Google, from 1026 reviews',
-      'cap.croissant': 'Croissant and coffee on the blue bench',
+      'intro.rating': 'on Google, from over 1,000 reviews',
       'coffee.title': 'Coffee from two roasts',
       'coffee.p1': 'Our coffee is roasted by CrackerJack Coffee Roasters. You can have every classic coffee from a dark or a light roast; the light roast costs 40 to 100 forints more.',
       'coffee.roast': 'Roast', 'coffee.dark': 'Dark roast', 'coffee.light': 'Light roast',
@@ -105,7 +109,7 @@
       'hours.title': 'Opening hours', 'hours.mt': 'Monday–Thursday', 'hours.fr': 'Friday', 'hours.sa': 'Saturday', 'hours.su': 'Sunday',
       'contact.title': 'Contact', 'contact.addr': 'Address', 'contact.mail': 'Email', 'contact.delivery': 'Delivery',
       'foot.company': 'Run by Cafe World Kft.', 'foot.photos': 'Photos: Cafe Flow (cafeflow.hu)', 'foot.demo': 'Demo page, not the official Cafe Flow website.',
-      'alt.pult': 'The counter with the spiral staircase and the banana plant', 'alt.croissant': 'Croissant and coffee on the blue velvet bench', 'alt.latte': 'Latte art next to a croissant', 'alt.csiga': 'The spiral staircase and the leopard statue', 'alt.emelet': 'The bright room upstairs', 'alt.kulonterem': 'The private room with wallpaper and an oak sideboard', 'alt.terasz': 'The terrace on Várkerület under the blue sign', 'alt.csomagok': 'Cafe Flow coffee and tea packs', 'alt.falfestes': 'Downstairs by the painted wall panels, with the blue velvet bench',
+      'alt.pult': 'The counter with the spiral staircase and the banana plant', 'alt.latte': 'Latte art next to a croissant', 'alt.csiga': 'The spiral staircase and the leopard statue', 'alt.emelet': 'The bright room upstairs', 'alt.kulonterem': 'The private room with wallpaper and an oak sideboard', 'alt.terasz': 'The terrace on Várkerület under the blue sign', 'alt.csomagok': 'Cafe Flow coffee and tea packs', 'alt.falfestes': 'Downstairs by the painted wall panels, with the blue velvet bench',
       'today': 'Today {h}', 'closedToday': 'Closed today',
       'now.open': 'Open now, until {c}.', 'now.before': 'Closed now, we open today at {o}.', 'now.after': 'Closed now, we open tomorrow at {o}.',
       'tour.title': 'Look around', 'tour.p': 'A few pictures of the café, from the counter to the terrace.',
@@ -117,8 +121,7 @@
     },
     hu: {
       'gate.go': 'Belépés',
-      'rev.title': 'Értékelések', 'rev.g': '1026 értékelés a Google-on', 'rev.t': '6 értékelés a Tripadvisoron', 'rev.write': 'Írj értékelést', 'rev.all': 'Vélemények a Google-on',
-      'rev.d1': 'Tripadvisor, 2026. március', 'rev.d2': 'Tripadvisor, 2026. augusztus', 'rev.note': 'A vendégek eredeti, angol nyelvű szövege.', 'idx.rev': 'Értékelések',
+      'rev.write': 'Írj értékelést', 'idx.rev': 'Értékelések',
       'coffee.roast': 'Pörkölés',
       'roast.0': 'Sötét pörkölés: brazil santos és ugandai robusta keveréke. Csokis, mogyorós, fűszeres.',
       'roast.1': 'Világos pörkölés: egyetlen eredetből, ami időnként változik. Kérdezd meg a pultnál, épp melyik van.',
@@ -475,8 +478,8 @@
   }
   function setPhoto(tb, animate) {
     var s = IMG[tb.img];
-    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=6';
-    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=6 ' + w + 'w'; }).join(', ');
+    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=7';
+    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=7 ' + w + 'w'; }).join(', ');
     var cap = L(tb.cap);
     if (!animate) { photoImg.srcset = srcset; photoImg.sizes = '(max-width: 1023px) 0px, 40vw'; photoImg.src = src; photoImg.alt = cap; capEl.textContent = cap; return; }
     var pre = new Image(); pre.sizes = '40vw'; pre.srcset = srcset; pre.src = src;
@@ -712,7 +715,7 @@
     var FS = [
       'precision highp float;varying vec2 v;',
       'uniform sampler2D uI,uD;uniform vec2 uRes,uM;uniform float uAR,uOver;',
-      'const vec2 POS=vec2(.6,.18);',
+      'const vec2 POS=vec2(.6,.16);',
       'vec2 img(vec2 p){float sa=uRes.x/uRes.y;vec2 s=sa>uAR?vec2(1.,uAR/sa):vec2(sa/uAR,1.);',
       ' vec2 o=(1.-s)*POS;vec2 c=o+.5*s;return c+(o+p*s-c)/uOver;}',
       'void main(){vec2 p=v;',
@@ -739,7 +742,7 @@
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, src);
     }
-    var im = heroOn, dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-depth.webp?v=6';
+    var im = heroOn, dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-depth.webp?v=7';
     var lastW = 0, lastH = 0;
     function size() {
       var w = cv.clientWidth, h = cv.clientHeight, dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -913,12 +916,10 @@
         gsap.to(img, { scale: 1, duration: 2, ease: 'expo.out', clearProps: 'transform', onComplete: function () { img.style.willChange = ''; } });
       } });
     });
-    $$('.score__n').forEach(function (el) {
-      var to = parseFloat(el.getAttribute('data-to')), o = { v: 0 };
-      el.setAttribute('aria-label', to.toFixed(1).replace('.', ',')); el.textContent = '0,0';
-      ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true, onEnter: function () {
-        gsap.to(o, { v: to, duration: 1.6, ease: 'expo.out', onUpdate: function () { el.textContent = o.v.toFixed(1).replace('.', ','); } });
-        var st = el.parentNode.querySelector('.stars__on'); if (st) gsap.fromTo(st, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.4, ease: 'power3.out', delay: .15 });
+    $$('.rq__stars').forEach(function (el, k) {
+      var s = $$('i', el); gsap.set(s, { opacity: .18 });
+      ScrollTrigger.create({ trigger: el, start: 'top 90%', once: true, onEnter: function () {
+        gsap.to(s, { opacity: 1, duration: .5, ease: 'power2.out', stagger: .09, delay: .25 + (k % 3) * .12 });
       } });
     });
     neons.slice(1).forEach(function (n) {
