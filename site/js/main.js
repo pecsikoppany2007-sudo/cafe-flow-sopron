@@ -428,8 +428,8 @@
   }
   function setPhoto(tb, animate) {
     var s = IMG[tb.img];
-    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=2';
-    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=2 ' + w + 'w'; }).join(', ');
+    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=3';
+    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=3 ' + w + 'w'; }).join(', ');
     var cap = L(tb.cap);
     if (!animate) { photoImg.srcset = srcset; photoImg.sizes = '(max-width: 1023px) 0px, 40vw'; photoImg.src = src; photoImg.alt = cap; capEl.textContent = cap; return; }
     var pre = new Image(); pre.sizes = '40vw'; pre.srcset = srcset; pre.src = src;
@@ -506,7 +506,7 @@
     });
     var self = this;
     this.paths = ['n3', 'n2', 'n1'].map(function (c) { var p = document.createElementNS(NS, 'path'); p.setAttribute('class', c); svg.appendChild(p); return p; });
-    this.mult = [7, 2.8, 1];
+    this.mult = [6, 2.4, 1];
     this.t = 0; this.draw(0);
   }
   Neon.prototype.shape = function (r, t) {
@@ -556,10 +556,10 @@
   }
 
   var neons = [];
-  $$('[data-neon]').forEach(function (svg) { neons.push(new Neon(svg, svg.getAttribute('data-neon'), { w: svg.classList.contains('neon--hero') ? 4.2 : 3.4 })); });
+  $$('[data-neon]').forEach(function (svg) { neons.push(new Neon(svg, svg.getAttribute('data-neon'), { w: svg.classList.contains('neon--hero') ? 2.6 : 2.2 })); });
   var heroNeon = neons[0];
   var helixSvg = $('#helix'), helix = null;
-  if (helixSvg && getComputedStyle(helixSvg).display !== 'none') helix = new Neon(helixSvg, helixPath(), { w: 3 });
+  if (helixSvg && getComputedStyle(helixSvg).display !== 'none') helix = new Neon(helixSvg, helixPath(), { w: 2 });
 
   /* ------------------------------------------------------------------ nyitány: kialudt homlokzat, felvillanó neon, felkapcsolt belső */
   var introDone = false;
@@ -701,7 +701,7 @@
     tourSvg.setAttribute('width', W); tourSvg.setAttribute('height', y + 40);
     tourSvg.setAttribute('viewBox', '0 0 ' + W + ' ' + (y + 40));
     tourSvg.innerHTML = '';
-    tourNeon = new Neon(tourSvg, d, { w: 3, step: 4, max: 1400 });
+    tourNeon = new Neon(tourSvg, d, { w: 2, step: 4, max: 1400 });
     tourNeon.draw(tourMode === 'h' ? Math.min(tourT, tourEntry.e) : tourNeon.t);
   }
   function tourSet() {

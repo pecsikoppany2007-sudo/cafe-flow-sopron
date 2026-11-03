@@ -1,8 +1,11 @@
-/* Cafe Flow – bemutató oldal. Színek a helyből: éjkék fal, sárgaréz csigalépcső, neon cégtábla, hatszög csempe. */
-@font-face { font-family: 'Antonio'; font-weight: 600; font-display: swap; src: url(../fonts/antonio-latin-600-normal.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'Antonio'; font-weight: 600; font-display: swap; src: url(../fonts/antonio-latin-ext-600-normal.woff2) format('woff2'); unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
-@font-face { font-family: 'Antonio'; font-weight: 700; font-display: swap; src: url(../fonts/antonio-latin-700-normal.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: 'Antonio'; font-weight: 700; font-display: swap; src: url(../fonts/antonio-latin-ext-700-normal.woff2) format('woff2'); unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+/* Cafe Flow – bemutató oldal. Színek a helyből: éjkék fal, sárgaréz csigalépcső, neon cégtábla, hatszög csempe.
+   v3: címek Noto Serif Display (vékony, nagy kontrasztú), szöveg Hanken Grotesk; egy neoncső-vastagság mindenhol. */
+@font-face { font-family: 'Noto Serif Display'; font-style: normal; font-weight: 300; font-display: swap; src: url(../fonts/noto-serif-display-latin-300-normal.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Noto Serif Display'; font-style: normal; font-weight: 300; font-display: swap; src: url(../fonts/noto-serif-display-latin-ext-300-normal.woff2) format('woff2'); unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Noto Serif Display'; font-style: italic; font-weight: 300; font-display: swap; src: url(../fonts/noto-serif-display-latin-300-italic.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Noto Serif Display'; font-style: italic; font-weight: 300; font-display: swap; src: url(../fonts/noto-serif-display-latin-ext-300-italic.woff2) format('woff2'); unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Noto Serif Display'; font-style: normal; font-weight: 400; font-display: swap; src: url(../fonts/noto-serif-display-latin-400-normal.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Noto Serif Display'; font-style: normal; font-weight: 400; font-display: swap; src: url(../fonts/noto-serif-display-latin-ext-400-normal.woff2) format('woff2'); unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: 'Hanken Grotesk'; font-weight: 400; font-display: swap; src: url(../fonts/hanken-grotesk-latin-400-normal.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'Hanken Grotesk'; font-weight: 400; font-display: swap; src: url(../fonts/hanken-grotesk-latin-ext-400-normal.woff2) format('woff2'); unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: 'Hanken Grotesk'; font-weight: 600; font-display: swap; src: url(../fonts/hanken-grotesk-latin-600-normal.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
@@ -26,7 +29,7 @@
   --gut: clamp(20px, 5vw, 72px);
   --max: 1320px;
   --ease: cubic-bezier(.16, 1, .3, 1);
-  --head: 'Antonio', 'Arial Narrow', sans-serif;
+  --head: 'Noto Serif Display', Georgia, serif;
   --body: 'Hanken Grotesk', system-ui, sans-serif;
 }
 
@@ -36,9 +39,9 @@ html { -webkit-text-size-adjust: 100%; scroll-padding-top: 72px; }
 body { margin: 0; background: var(--night); color: var(--text-on-navy); font: 400 17px/1.6 var(--body); -webkit-font-smoothing: antialiased; overflow-x: clip; }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-underline-offset: .18em; text-decoration-thickness: 1px; }
-h1, h2, h3 { font-family: var(--head); font-weight: 700; margin: 0; line-height: 1.03; letter-spacing: .005em; text-wrap: balance; }
-h2 { font-size: clamp(2.6rem, 6.2vw, 4.6rem); margin-bottom: .45em; }
-h3 { font-size: clamp(1.7rem, 3vw, 2.1rem); font-weight: 600; margin-bottom: .4em; }
+h1, h2, h3 { font-family: var(--head); font-weight: 300; margin: 0; line-height: 1.06; letter-spacing: -.012em; text-wrap: balance; }
+h2 { font-size: clamp(2.5rem, 5.2vw, 4.3rem); margin-bottom: .45em; }
+h3 { font-size: clamp(1.6rem, 2.6vw, 2rem); font-weight: 400; letter-spacing: -.005em; margin-bottom: .45em; }
 p { margin: 0 0 1em; max-width: 62ch; }
 .small { font-size: 15px; line-height: 1.55; }
 .sr, .skip { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -56,8 +59,8 @@ p { margin: 0 0 1em; max-width: 62ch; }
 .nav { position: fixed; z-index: 40; top: 0; left: 0; right: 0; height: 68px; display: flex; align-items: center; gap: 28px; padding: 0 var(--gut); transition: background-color .35s, border-color .35s; border-bottom: 1px solid transparent; }
 .nav.is-solid { background: rgba(14, 20, 36, .94); border-bottom-color: rgba(201, 163, 90, .22); }
 .nav__brand { text-decoration: none; display: flex; align-items: baseline; gap: 5px; margin-right: auto; color: var(--neon); }
-.nav__cafe { font: italic 400 21px/1 var(--body); }
-.nav__flow { font: 600 23px/1 var(--head); letter-spacing: .06em; }
+.nav__cafe { font: italic 300 24px/1 var(--head); }
+.nav__flow { font: 400 14px/1 var(--body); letter-spacing: .26em; }
 .nav__links { display: flex; gap: 26px; }
 .nav__links a { text-decoration: none; font-weight: 600; font-size: 15px; padding: 6px 0; position: relative; }
 .nav__links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--brass); transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease); }
@@ -74,9 +77,9 @@ p { margin: 0 0 1em; max-width: 62ch; }
 .hero__l { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 42%; }
 .hero__sign, .hero__on { opacity: 0; }
 .no-intro .hero__on { opacity: 1; }
-.hero__shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14, 20, 36, .9) 0%, rgba(14, 20, 36, .55) 30%, rgba(14, 20, 36, 0) 56%), linear-gradient(0deg, rgba(14, 20, 36, .85) 0%, rgba(14, 20, 36, 0) 34%); }
+.hero__shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14, 20, 36, .92) 0%, rgba(14, 20, 36, .66) 34%, rgba(14, 20, 36, 0) 64%), linear-gradient(0deg, rgba(14, 20, 36, .85) 0%, rgba(14, 20, 36, 0) 34%); }
 .hero__text { position: absolute; left: var(--gut); bottom: clamp(40px, 9vh, 96px); width: min(56rem, 58vw); }
-.hero__title { font-size: clamp(3.4rem, 7.2vw, 7rem); line-height: 1.02; color: #fbf7ef; }
+.hero__title { font-size: clamp(3.1rem, 6.3vw, 6.4rem); line-height: 1.04; color: #fbf7ef; text-shadow: 0 0 34px rgba(14, 20, 36, .55); }
 .hero__title .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .06em; margin-bottom: -.06em; }
 .hero__title .w > span { display: inline-block; }
 .js:not(.no-intro):not(.intro-done) .hero__title .w > span { transform: translateY(110%); }
@@ -89,8 +92,8 @@ p { margin: 0 0 1em; max-width: 62ch; }
 
 /* neon vonalak: kitöltött alakzatok, a JS rajzolja */
 .neon { display: block; overflow: visible; pointer-events: none; }
-.neon .n3 { fill: var(--glow); opacity: .1; }
-.neon .n2 { fill: var(--glow); opacity: .32; }
+.neon .n3 { fill: var(--glow); opacity: .07; }
+.neon .n2 { fill: var(--glow); opacity: .24; }
 .neon .n1 { fill: var(--neon); }
 .neon.is-drawing { will-change: transform; }
 
@@ -111,7 +114,7 @@ p { margin: 0 0 1em; max-width: 62ch; }
 .intro__small { grid-column: 2 / 6; grid-row: 2; margin-top: 40px; width: 78%; justify-self: end; }
 .intro__small img { aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 70%; }
 .intro__rating a { text-decoration: none; display: inline-flex; align-items: baseline; gap: 10px; border-bottom: 1px solid var(--brass); padding-bottom: 4px; }
-.intro__rating strong { font: 700 2.4rem/1 var(--head); color: var(--ink); }
+.intro__rating strong { font: 300 2.9rem/1 var(--head); color: var(--ink); }
 
 /* kávé – éjkék */
 .flowline { background: var(--navy); padding: 30px var(--gut) 0; }
@@ -135,7 +138,7 @@ p { margin: 0 0 1em; max-width: 62ch; }
 .pr > span { display: block; }
 .coffee__flav { grid-column: 1 / 13; margin-top: clamp(70px, 9vw, 120px); display: grid; grid-template-columns: repeat(12, 1fr); column-gap: inherit; }
 .flav__intro { grid-column: 1 / 5; align-self: start; position: sticky; top: 110px; }
-.coffee__flav h3 { font-size: clamp(2.1rem, 4vw, 3rem); }
+.coffee__flav h3 { font-size: clamp(2.1rem, 3.6vw, 3rem); font-weight: 300; }
 .flav { grid-column: 6 / 13; }
 .flav__head, .flav li { display: grid; grid-template-columns: 1fr 74px 88px 64px; gap: 8px; align-items: baseline; }
 .flav__head { font-size: 13px; padding-bottom: 6px; border-bottom: 1px solid var(--brass); color: var(--brass); }
@@ -187,7 +190,7 @@ p { margin: 0 0 1em; max-width: 62ch; }
 
 /* terasz, bolt */
 .house { background: var(--cream); color: var(--paper-text); padding: clamp(100px, 12vw, 160px) var(--gut); --cur: var(--cream); }
-.house h2 { color: var(--ink); font-size: clamp(2.3rem, 5vw, 3.8rem); }
+.house h2 { color: var(--ink); font-size: clamp(2.3rem, 4.4vw, 3.8rem); }
 .house__grid { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: repeat(12, 1fr); column-gap: clamp(16px, 2vw, 28px); row-gap: clamp(60px, 8vw, 110px); align-items: center; }
 .house__packs { grid-column: 7 / 13; grid-row: 1; }
 .house__packs img { aspect-ratio: 3 / 2; object-fit: cover; }
@@ -205,8 +208,8 @@ p { margin: 0 0 1em; max-width: 62ch; }
 .htable th, .htable td { padding: 13px 0; border-bottom: 1px solid rgba(201, 163, 90, .25); text-align: left; font-weight: 400; }
 .htable td { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
 .htable tr { position: relative; }
-.htable tr.today th, .htable tr.today td { color: var(--neon); text-shadow: 0 0 14px rgba(91, 140, 255, .9); }
-.htable tr.today th::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--neon); box-shadow: 0 0 10px 2px rgba(91, 140, 255, .9); margin-right: 12px; vertical-align: 2px; }
+.htable tr.today th, .htable tr.today td { color: var(--neon); text-shadow: 0 0 10px rgba(91, 140, 255, .55); }
+.htable tr.today th::before { content: ''; display: inline-block; width: 6px; height: 6px; background: var(--neon); box-shadow: 0 0 7px 1px rgba(91, 140, 255, .75); margin-right: 12px; vertical-align: 3px; }
 #nowLine { margin-top: 16px; }
 .contact { display: grid; grid-template-columns: max-content 1fr; gap: 10px 22px; margin: 0 0 28px; }
 .contact dt { color: var(--brass); font-size: 15px; padding-top: 2px; }
@@ -246,7 +249,7 @@ p { margin: 0 0 1em; max-width: 62ch; }
   .nav__burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(4px) rotate(45deg); }
   .nav__burger[aria-expanded="true"] span:nth-child(2) { transform: translateY(-4px) rotate(-45deg); }
   .nav__links { position: fixed; top: 60px; left: 0; right: 0; height: calc(100lvh - 60px); background: var(--night); flex-direction: column; gap: 0; padding: 20px var(--gut); transform: translateY(-8px); opacity: 0; visibility: hidden; transition: opacity .3s, transform .4s var(--ease), visibility 0s .4s; }
-  .nav__links a { font: 700 2.6rem/1.25 var(--head); padding: 10px 0; border-bottom: 1px solid rgba(201, 163, 90, .2); }
+  .nav__links a { font: 300 2.4rem/1.3 var(--head); padding: 10px 0; border-bottom: 1px solid rgba(201, 163, 90, .2); }
   .nav.is-open .nav__links { opacity: 1; transform: none; visibility: visible; transition: opacity .3s, transform .4s var(--ease); }
   .nav.is-open { background: var(--night); }
   .nav__lang button { padding: 9px 8px; }
@@ -255,7 +258,7 @@ p { margin: 0 0 1em; max-width: 62ch; }
   .hero__l { object-position: 62% 30%; }
   .hero__shade { background: linear-gradient(0deg, rgba(14, 20, 36, 1) 0%, rgba(14, 20, 36, .6) 22%, rgba(14, 20, 36, 0) 48%); }
   .hero__text { width: auto; right: var(--gut); bottom: calc(26px + env(safe-area-inset-bottom)); }
-  .hero__title { font-size: clamp(2.9rem, 13.5vw, 4rem); }
+  .hero__title { font-size: clamp(2.6rem, 11.6vw, 3.6rem); }
   .neon--hero { margin: 8px 0 12px -2px; }
   .hero__sub { font-size: 16.5px; margin-bottom: 20px; }
   .hero__btns .btn { flex: 1 1 140px; }
@@ -307,7 +310,7 @@ html.lenis, html.lenis body { height: auto; }
 .tour__item--t .tour__ph { aspect-ratio: 2 / 3; }
 .tour__ph img { width: 100%; height: 100%; max-width: none; object-fit: cover; }
 .tour__item figcaption { display: flex; gap: 12px; align-items: baseline; margin-top: 14px; font-size: 15px; max-width: 34ch; }
-.tour__n { font: 600 15px/1 var(--head); color: var(--brass); letter-spacing: .08em; }
+.tour__n { font: 600 12px/1 var(--body); color: var(--brass); letter-spacing: .16em; font-variant-numeric: tabular-nums; }
 .neon--tour { position: absolute; left: 0; top: 0; z-index: 0; }
 .tour__item, .tour__intro { position: relative; z-index: 1; }
 html.tour-h .tour { height: var(--tour-h, 300vh); }
@@ -320,19 +323,19 @@ html.tour-h .tour__ph img { transform: scale(1.16); }
 
 /* ízesített kávék futószalagja */
 .marq { background: var(--navy); overflow: hidden; padding: 6px 0 clamp(70px, 9vw, 120px); }
-.marq__track { display: flex; width: max-content; white-space: nowrap; font: 700 clamp(3rem, 7.4vw, 6.6rem)/1.2 var(--head); text-transform: uppercase; letter-spacing: .01em; will-change: transform; }
-.marq__track span { padding: 0 .3em; }
-.marq__track .o { color: transparent; -webkit-text-stroke: 1px rgba(201, 163, 90, .85); }
+.marq__track { display: flex; width: max-content; white-space: nowrap; font: 300 clamp(2.8rem, 6.4vw, 5.8rem)/1.3 var(--head); letter-spacing: -.01em; will-change: transform; }
+.marq__track span { padding: 0 .45em; }
+.marq__track .o { color: rgba(236, 229, 214, .34); font-style: italic; }
 .marq__track .s { color: var(--cream); }
-.marq__track b { display: inline-block; width: .13em; height: .13em; align-self: center; background: var(--neon); box-shadow: 0 0 10px 2px rgba(91, 140, 255, .9); }
+.marq__track b { display: inline-block; width: 5px; height: 5px; align-self: center; background: var(--neon); box-shadow: 0 0 6px 1px rgba(91, 140, 255, .7); }
 
 /* lábléc: a fő tartalom alól tűnik elő, a neon felirat felgyullad */
 .foot { background: var(--night); padding: clamp(70px, 10vw, 130px) var(--gut) 34px; overflow: hidden; }
-.foot__sign { position: relative; margin: 0 auto; max-width: none; text-align: center; white-space: nowrap; font: 700 clamp(4rem, 17vw, 15rem)/1 var(--head); letter-spacing: .02em; }
-.foot__sign i { font: italic 400 .7em/1 var(--body); letter-spacing: 0; margin-right: .06em; }
+.foot__sign { position: relative; margin: 0 auto; max-width: none; text-align: center; white-space: nowrap; font: 400 clamp(2.6rem, 10vw, 9rem)/1.15 var(--body); letter-spacing: .2em; }
+.foot__sign i { font: italic 300 1.5em/1 var(--head); letter-spacing: 0; margin-right: .16em; }
 .sign { display: block; }
 .sign--off { color: rgba(160, 176, 214, .14); }
-.sign--on { position: absolute; inset: 0; color: #f7f9ff; text-shadow: 0 0 2px rgba(255, 255, 255, .9), 0 0 14px rgba(91, 140, 255, .95), 0 0 46px rgba(91, 140, 255, .55); }
+.sign--on { position: absolute; inset: 0; color: #f5f7fd; text-shadow: 0 0 1px rgba(255, 255, 255, .8), 0 0 10px rgba(91, 140, 255, .75), 0 0 34px rgba(91, 140, 255, .35); }
 .js .sign--on { opacity: 0; }
 .neon--foot { width: min(900px, 100%); height: auto; margin: 6px auto 56px; }
 .foot__grid { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
@@ -344,7 +347,7 @@ html.is-curtain .foot { position: sticky; bottom: 0; z-index: 0; }
 
 /* neon kör kurzor (csak egérrel) */
 .cursor, .cursor-dot { position: fixed; left: 0; top: 0; z-index: 95; pointer-events: none; border-radius: 50%; opacity: 0; transition: opacity .3s, border-color .3s, background-color .3s, box-shadow .3s; will-change: transform; }
-.cursor { width: 38px; height: 38px; margin: -19px 0 0 -19px; border: 1.5px solid var(--neon); box-shadow: 0 0 9px rgba(91, 140, 255, .8), inset 0 0 7px rgba(91, 140, 255, .45); }
+.cursor { width: 38px; height: 38px; margin: -19px 0 0 -19px; border: 1px solid var(--neon); box-shadow: 0 0 6px rgba(91, 140, 255, .6), inset 0 0 5px rgba(91, 140, 255, .3); }
 .cursor-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--neon); box-shadow: 0 0 8px 1px rgba(91, 140, 255, .9); }
 .cursor.is-on, .cursor-dot.is-on { opacity: 1; }
 .cursor.is-link { background-color: rgba(91, 140, 255, .14); }
@@ -375,9 +378,22 @@ html.mid-light .idx .idx__l { color: var(--ink); }
 @media (max-width: 1099px) { .edge { display: none; } }
 @media (max-width: 767px) {
   .foot__grid { grid-template-columns: 1fr; }
+  .foot__sign { font-size: 9.6vw; letter-spacing: .14em; }
   .tour__ph { height: 62vw; }
 }
 @media (prefers-reduced-motion: reduce) {
   .btn .rl i { transition: none; }
 }
 .up__text h2 { font-size: clamp(2.4rem, 4.3vw, 4.2rem); }
+
+/* ================================================================ v3: egységes rács és nyugodtabb részletek */
+/* négy hajszálvonal a tartalmi rács negyedeinél, az egész oldalon át (csak széles képernyőn) */
+.grid-lines { position: fixed; inset: 0; z-index: 25; pointer-events: none; display: none; }
+.grid-lines > div { position: absolute; top: 0; bottom: 0; left: max(var(--gut), calc(50% - 660px)); right: max(var(--gut), calc(50% - 660px)); }
+.grid-lines i { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(150, 162, 196, .075); }
+@media (min-width: 1024px) { .grid-lines { display: block; } }
+.btn { font-weight: 600; letter-spacing: .01em; }
+.btn--line { border-color: rgba(241, 235, 224, .4); }
+.intro__rating strong { letter-spacing: -.02em; }
+@media (min-width: 768px) { .flav__head { letter-spacing: .08em; text-transform: uppercase; font-size: 11px; } }
+.contact dt, .foot__k { letter-spacing: .12em; text-transform: uppercase; font-size: 12px; }
