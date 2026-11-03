@@ -1,6 +1,6 @@
 // v2 interakciók: menüpontok érkezése (Lenis), élő nyelvváltás = friss betöltés, lábléc linkjei, újratöltés középen, csökkentett mozgás
 const { chromium } = require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright');
-const U = 'http://localhost:8766/';
+const U = 'http://localhost:8766/?nogate';
 (async () => {
   const b = await chromium.launch();
   const errs = [];

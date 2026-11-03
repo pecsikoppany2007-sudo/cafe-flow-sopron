@@ -26,6 +26,7 @@
   /* ------------------------------------------------------------------ szövegek */
   var T = {
     de: {
+      'gate.go': 'Eintreten',
       'skip': 'Zum Inhalt',
       'nav.menu': 'Speisekarte', 'nav.coffee': 'Kaffee', 'nav.upstairs': 'Obergeschoss', 'nav.hours': 'Öffnungszeiten', 'nav.open': 'Menü',
       'hero.title': 'Café an der Grabenrunde in Sopron', 'hero.addr': 'Várkerület 53.', 'hero.menu': 'Speisekarte', 'hero.route': 'Route planen',
@@ -68,6 +69,7 @@
       'meta.desc': 'Café und Frühstück in Sopron, Várkerület 53. Kaffee aus dunkler und heller Röstung, Frühstück, Kuchen, Raum für Feiern im Obergeschoss. Täglich geöffnet.'
     },
     en: {
+      'gate.go': 'Come in',
       'skip': 'Skip to content',
       'nav.menu': 'Menu', 'nav.coffee': 'Coffee', 'nav.upstairs': 'Upstairs', 'nav.hours': 'Opening hours', 'nav.open': 'Menu',
       'hero.title': 'Café on Várkerület in Sopron', 'hero.addr': 'Várkerület 53.', 'hero.menu': 'Menu', 'hero.route': 'Directions',
@@ -110,6 +112,7 @@
       'meta.desc': 'Café and breakfast in Sopron, Várkerület 53. Coffee from a dark and a light roast, breakfast, cakes, an upstairs room for events. Open every day.'
     },
     hu: {
+      'gate.go': 'Belépés',
       'coffee.roast': 'Pörkölés',
       'roast.0': 'Sötét pörkölés: brazil santos és ugandai robusta keveréke. Csokis, mogyorós, fűszeres.',
       'roast.1': 'Világos pörkölés: egyetlen eredetből, ami időnként változik. Kérdezd meg a pultnál, épp melyik van.',
@@ -613,9 +616,20 @@
     gsap.set(['.hero__sub', '.hero__btns', '.nav'], { opacity: 1, y: 0 });
     if (heroNeon) heroNeon.draw(1);
   }
+  var fromGate = html.classList.contains('gate-on');
   function runIntro() {
     html.classList.add('intro-started');
     var tl = gsap.timeline({ onComplete: function () { introDone = true; html.classList.add('intro-done'); gsap.set(['.hero__sub', '.hero__btns', '.nav'], { clearProps: 'transform,opacity' }); } });
+    if (fromGate) {
+      // a kapun már kigyulladt a felirat: itt csak a belső világítás kapcsol fel
+      tl.set(heroSign, { opacity: 1 })
+        .to(heroOn, { keyframes: [{ opacity: .55, duration: .08 }, { opacity: .3, duration: .1 }, { opacity: 1, duration: .9, ease: 'power2.out' }] }, .55)
+        .to($$('.w > span', titleEl), { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: .07 }, .45)
+        .add(function () { if (heroNeon) heroNeon.play(1.3); }, .9)
+        .to(['.hero__sub', '.hero__btns'], { opacity: 1, y: 0, duration: .9, ease: 'expo.out', stagger: .1 }, 1.2)
+        .to('.nav', { opacity: 1, duration: .8, ease: 'power2.out' }, 1.3);
+      return;
+    }
     tl.set(heroSign, { opacity: 0 })
       // a neon gyújtása: rövid villanások, aztán áll
       .to(heroSign, { keyframes: [{ opacity: .85, duration: .05 }, { opacity: .05, duration: .07 }, { opacity: .9, duration: .04 }, { opacity: .2, duration: .1 }, { opacity: 1, duration: .05 }, { opacity: .6, duration: .05, delay: .18 }, { opacity: 1, duration: .06 }] }, .45)
@@ -633,8 +647,11 @@
   else {
     var started = false;
     var go = function () { if (started) return; started = true; if (html.classList.contains('no-intro')) finishIntro(); else runIntro(); };
-    Promise.all([waitImgs, waitFonts]).then(go, go);
-    setTimeout(function () { if (!started) { html.classList.add('no-intro'); started = true; finishIntro(); } }, 2400);
+    var arm = function () {
+      Promise.all([waitImgs, waitFonts]).then(go, go);
+      setTimeout(function () { if (!started) { html.classList.add('no-intro'); started = true; finishIntro(); } }, fromGate ? 1200 : 2400);
+    };
+    if (fromGate) window.__gateOpen = arm; else arm();
   }
 
   /* ------------------------------------------------------------------ neonvonal: az egér elnyomja, rugóként visszaleng */
@@ -644,23 +661,24 @@
     var o = { ox: new Float32Array(n), oy: new Float32Array(n), vx: new Float32Array(n), vy: new Float32Array(n), mx: null, my: null, vis: false, run: false, sc: 1 };
     this.bend = o;
     function step() {
-      var A = 12 * o.sc, R = 70 * o.sc, R2 = R * R, e = 0, Pd = self.Pd || P.map(function (p) { return [p[0], p[1]]; });
+      // lágy vonzás: a cső széles ívben, néhány pixelt hajlik az egér felé, ugrás és átbillenés nélkül
+      var A = 7 * o.sc, R = 120 * o.sc, R2 = R * R, e = 0, Pd = self.Pd || P.map(function (p) { return [p[0], p[1]]; });
       for (var i = 0; i < n; i++) {
         var tx = 0, ty = 0;
         if (o.mx !== null) {
           var dx = P[i][0] - o.mx, dy = P[i][1] - o.my, d2 = dx * dx + dy * dy;
           if (d2 < R2 * 4) {
-            var nx = -T[i][1], ny = T[i][0], sd = dx * nx + dy * ny, f = Math.exp(-d2 / R2), push = Math.max(0, A * f - Math.abs(sd) * .35);
-            var side = sd >= 0 ? 1 : -1; tx = nx * side * push; ty = ny * side * push;
+            var nx = -T[i][1], ny = T[i][0], sd = dx * nx + dy * ny, f = Math.exp(-d2 / R2);
+            var pull = Math.max(-A, Math.min(A, -sd * .22)) * f; tx = nx * pull; ty = ny * pull;
           }
         }
-        o.vx[i] = (o.vx[i] + (tx - o.ox[i]) * .14) * .8; o.vy[i] = (o.vy[i] + (ty - o.oy[i]) * .14) * .8;
+        o.vx[i] = (o.vx[i] + (tx - o.ox[i]) * .05) * .8; o.vy[i] = (o.vy[i] + (ty - o.oy[i]) * .05) * .8;
         o.ox[i] += o.vx[i]; o.oy[i] += o.vy[i];
         e += Math.abs(o.ox[i]) + Math.abs(o.vx[i]) + Math.abs(o.oy[i]) + Math.abs(o.vy[i]);
         Pd[i][0] = P[i][0] + o.ox[i]; Pd[i][1] = P[i][1] + o.oy[i];
       }
       self.Pd = Pd; self.draw(self.t);
-      if (e < .02 * n && o.mx === null) { o.run = false; self.Pd = null; o.ox.fill(0); o.oy.fill(0); o.vx.fill(0); o.vy.fill(0); self.draw(self.t); gsap.ticker.remove(step); }
+      if (e < .01 * n && o.mx === null) { o.run = false; self.Pd = null; o.ox.fill(0); o.oy.fill(0); o.vx.fill(0); o.vy.fill(0); self.draw(self.t); gsap.ticker.remove(step); }
     }
     o.kick = function () { if (!o.run) { o.run = true; gsap.ticker.add(step); } };
     bendables.push(this);
@@ -737,9 +755,14 @@
     var load = function () {
       var w = im.decode ? im.decode().catch(function () {}) : null;
       var d = dep.decode ? dep.decode() : new Promise(function (r) { dep.onload = r; });
+      // a kép dekódolása a fő szálon kívül (ImageBitmap), hogy a feltöltés ne akassza meg a görgetést
+      var bm = function (x) { return window.createImageBitmap ? createImageBitmap(x).catch(function () { return x; }) : Promise.resolve(x); };
       Promise.all([w, d]).then(function () {
         if (!im.naturalWidth || !dep.naturalWidth) return;
-        tex(0, im); tex(1, dep);
+        return Promise.all([bm(im), bm(dep)]);
+      }).then(function (bms) {
+        if (!bms) return;
+        tex(0, bms[0]); tex(1, bms[1]);
         gl.uniform1i(U.uI, 0); gl.uniform1i(U.uD, 1);
         gl.uniform1f(U.uAR, im.naturalWidth / im.naturalHeight); gl.uniform1f(U.uOver, 1.05);
         G.ok = true; size(); draw();
@@ -747,7 +770,8 @@
       }).catch(function () {});
     };
     // a felvillanó nyitány után vesszük át a képet (addig a három réteg animál)
-    var waitIntro = function () { if (introDone) load(); else setTimeout(waitIntro, 200); };
+    var idle = window.requestIdleCallback || function (f) { return setTimeout(f, 1); };
+    var waitIntro = function () { if (introDone) setTimeout(function () { idle(load, { timeout: 1500 }); }, 900); else setTimeout(waitIntro, 200); };
     waitIntro();
     cv.addEventListener('webglcontextlost', function (e) { e.preventDefault(); G.ok = false; html.classList.remove('hero-3d'); });
     heroEl.addEventListener('pointermove', function (e) { G.mT[0] = (e.clientX / innerWidth - .5) * 2; G.mT[1] = (e.clientY / innerHeight - .5) * 2; G.kick(); });
@@ -790,6 +814,72 @@
       lenis.scrollTo(el, { offset: id === '#top' ? 0 : -70, duration: 1.6 });
     });
   }
+
+  /* ------------------------------------------------------------------ kapu: csak a neonfelirat, betűnként gyullad; görgetésre, kattintásra vagy gombra nyílik */
+  (function () {
+    var gate = $('#gate');
+    if (!gate) return;
+    if (!html.classList.contains('gate-on')) { gate.parentNode.removeChild(gate); return; }
+    html.classList.add('gate-run');
+    try { history.scrollRestoration = 'manual'; } catch (e) {}
+    window.scrollTo(0, 0);
+    if (lenis) lenis.stop();
+    var cafe = $$('.gate__cafe .gl__on', gate), flow = $$('.gate__flow .gl__on', gate), all = cafe.concat(flow);
+    var wall = $('.gate__wall', gate), sign = $('.gate__sign', gate), rest = [$('.gate__addr', gate), $('.gate__go', gate)];
+    var opened = false, hum = 0;
+    var gsvg = $('.neon--gate', gate), gneon = gsvg ? new Neon(gsvg, 'M4 40 C 110 40, 200 46, 280 38 C 330 33, 352 12, 334 6 C 314 0, 304 32, 340 42 C 400 56, 500 44, 636 40', { w: 2.2 }) : null;
+    if (gneon && canHover && !reduced && gneon.bendable) gneon.bendable();
+    function flick(el, at, tl) {
+      // egy betű gyújtása: rövid, szabálytalan villanások, aztán áll
+      var r = Math.random;
+      tl.to(el, { keyframes: [{ opacity: .9, duration: .04 }, { opacity: .05, duration: .05 + r() * .05 }, { opacity: .75, duration: .03 }, { opacity: .15, duration: .06 + r() * .08 }, { opacity: 1, duration: .05 }] }, at);
+    }
+    gsap.set(all, { opacity: 0 }); gsap.set(wall, { opacity: 0 }); gsap.set(rest, { opacity: 0, y: 14 });
+    var tl = gsap.timeline({ delay: .5 });
+    cafe.forEach(function (el, i) { flick(el, .1 + i * .11 + Math.random() * .05, tl); });
+    tl.to(wall, { opacity: .55, duration: .5, ease: 'power2.out' }, .25);
+    flow.forEach(function (el, i) { flick(el, .95 + i * .14 + Math.random() * .05, tl); });
+    tl.to(wall, { opacity: 1, duration: .8, ease: 'power2.out' }, 1.2)
+      .fromTo(sign, { scale: .985 }, { scale: 1, duration: 1.6, ease: 'expo.out' }, 1.0)
+      .add(function () { if (gneon) gneon.play(1.5); }, 1.55)
+      .to(rest, { opacity: 1, y: 0, duration: 1, ease: 'expo.out', stagger: .12 }, 2.2)
+      .add(humLoop, 2.6);
+    // ritkán egy-egy betű megrezzen, mint egy igazi neoncső
+    function humLoop() {
+      if (opened) return;
+      var el = all[Math.floor(Math.random() * all.length)];
+      gsap.to(el, { keyframes: [{ opacity: .35, duration: .04 }, { opacity: 1, duration: .05 }, { opacity: .6, duration: .03 }, { opacity: 1, duration: .06 }] });
+      hum = setTimeout(humLoop, 3500 + Math.random() * 4000);
+    }
+    // egérre a felirat finoman ellenmozog
+    if (canHover) {
+      var qx = gsap.quickTo(sign, 'x', { duration: 1.4, ease: 'power3.out' }), qy = gsap.quickTo(sign, 'y', { duration: 1.4, ease: 'power3.out' });
+      var qw = gsap.quickTo(wall, 'x', { duration: 2, ease: 'power3.out' });
+      gate.addEventListener('mousemove', function (e) { var mx = e.clientX / innerWidth - .5, my = e.clientY / innerHeight - .5; qx(-mx * 18); qy(-my * 12); qw(mx * 40); });
+    }
+    function open() {
+      if (opened) return; opened = true; clearTimeout(hum);
+      try { sessionStorage.setItem('flow-gate', '1'); } catch (e) {}
+      tl.kill();
+      gsap.set(all, { opacity: 1 }); if (gneon) gneon.draw(1);
+      if (window.__gateOpen) window.__gateOpen();
+      gsap.timeline({ onComplete: function () {
+        html.classList.remove('gate-on'); if (gate.parentNode) gate.parentNode.removeChild(gate);
+        if (lenis) lenis.start(); ScrollTrigger.refresh();
+      } })
+        .to(rest, { opacity: 0, y: -10, duration: .3, ease: 'power2.in' }, 0)
+        .to(wall, { opacity: 1.0, scale: 1.25, duration: .5, ease: 'power2.out' }, 0)
+        .to(sign, { y: '-=' + Math.round(innerHeight * .28), scale: .92, duration: 1.15, ease: 'expo.inOut' }, .12)
+        .to(gate, { yPercent: -100, duration: 1.15, ease: 'expo.inOut' }, .12);
+    }
+    $('.gate__go', gate).addEventListener('click', open);
+    gate.addEventListener('click', open);
+    window.addEventListener('wheel', function (e) { if (e.deltaY > 4) open(); }, { passive: true });
+    var y0 = null;
+    gate.addEventListener('touchstart', function (e) { y0 = e.touches[0].clientY; }, { passive: true });
+    gate.addEventListener('touchmove', function (e) { if (y0 !== null && y0 - e.touches[0].clientY > 24) open(); }, { passive: true });
+    window.addEventListener('keydown', function (e) { if (!opened && /^(Enter| |ArrowDown|PageDown|Space|Escape)$/.test(e.key)) { if (e.key === ' ' || e.key === 'ArrowDown' || e.key === 'PageDown') e.preventDefault(); open(); } });
+  })();
 
   /* ------------------------------------------------------------------ felfedések (lassabbak, visszafogottak) */
   var footNeon = neons.filter(function (n) { return n.svg.classList.contains('neon--foot'); })[0];
@@ -939,18 +1029,23 @@
     cur.className = 'cursor'; dot.className = 'cursor-dot';
     cur.setAttribute('aria-hidden', 'true'); dot.setAttribute('aria-hidden', 'true');
     document.body.appendChild(cur); document.body.appendChild(dot);
+    // kis lámpa: halvány kék fény követi az egeret a sötét részeken, kicsit lomhábban, mint a kurzor
+    var lamp = document.createElement('div'); lamp.className = 'lamp'; lamp.setAttribute('aria-hidden', 'true'); document.body.appendChild(lamp);
+    var gx = -400, gy = -400;
     var tx = -100, ty = -100, cx = -100, cy = -100, ts = 1, cs = 1, craf = 0, seen = false;
     var k = reduced ? 1 : 0.2;
     var cloop = function () {
       cx += (tx - cx) * k; cy += (ty - cy) * k; cs += (ts - cs) * (reduced ? 1 : 0.18);
       cur.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0) scale(' + cs.toFixed(3) + ')';
       dot.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0)';
-      craf = (Math.abs(tx - cx) + Math.abs(ty - cy) + Math.abs(ts - cs) * 40 > 0.15) ? requestAnimationFrame(cloop) : 0;
+      gx += (tx - gx) * (reduced ? 1 : .085); gy += (ty - gy) * (reduced ? 1 : .085);
+      lamp.style.transform = 'translate3d(' + gx.toFixed(1) + 'px,' + gy.toFixed(1) + 'px,0)';
+      craf = (Math.abs(tx - cx) + Math.abs(ty - cy) + Math.abs(tx - gx) + Math.abs(ty - gy) + Math.abs(ts - cs) * 40 > 0.15) ? requestAnimationFrame(cloop) : 0;
     };
     var kick = function () { if (!craf) craf = requestAnimationFrame(cloop); };
     document.addEventListener('mousemove', function (e) {
       tx = e.clientX; ty = e.clientY;
-      if (!seen) { seen = true; cx = tx; cy = ty; html.classList.add('has-cursor'); cur.classList.add('is-on'); dot.classList.add('is-on'); }
+      if (!seen) { seen = true; cx = tx; cy = ty; gx = tx; gy = ty; html.classList.add('has-cursor'); cur.classList.add('is-on'); dot.classList.add('is-on'); lamp.classList.add('is-on'); }
       kick();
     }, { passive: true });
     document.addEventListener('mouseover', function (e) {
@@ -960,11 +1055,11 @@
       var light = !!el.closest('[data-cur="light"]');
       ts = link ? 1.75 : photo ? 1.4 : 1;
       cur.classList.toggle('is-link', !!link); dot.classList.toggle('is-link', !!link);
-      cur.classList.toggle('is-light', light); dot.classList.toggle('is-light', light);
+      cur.classList.toggle('is-light', light); dot.classList.toggle('is-light', light); lamp.classList.toggle('is-light', light);
       kick();
     });
-    document.documentElement.addEventListener('mouseleave', function () { cur.classList.remove('is-on'); dot.classList.remove('is-on'); });
-    document.documentElement.addEventListener('mouseenter', function () { if (seen) { cur.classList.add('is-on'); dot.classList.add('is-on'); } });
+    document.documentElement.addEventListener('mouseleave', function () { cur.classList.remove('is-on'); dot.classList.remove('is-on'); lamp.classList.remove('is-on'); });
+    document.documentElement.addEventListener('mouseenter', function () { if (seen) { cur.classList.add('is-on'); dot.classList.add('is-on'); lamp.classList.add('is-on'); } });
     if (!reduced) {
       $$('.btn').forEach(function (b) {
         var qx = gsap.quickTo(b, 'x', { duration: 0.5, ease: 'power3.out' }), qy = gsap.quickTo(b, 'y', { duration: 0.5, ease: 'power3.out' });

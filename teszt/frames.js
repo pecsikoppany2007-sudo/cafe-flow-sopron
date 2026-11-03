@@ -2,7 +2,7 @@
 // node frames.js [desktop|mobile] [cpuRate] [url]
 const { chromium, devices } = require(require('child_process').execSync('npm root -g').toString().trim()+'/playwright');
 (async () => {
-  const mode = process.argv[2] || 'desktop', rate = +(process.argv[3] || 1), url = process.argv[4] || 'http://localhost:8766/';
+  const mode = process.argv[2] || 'desktop', rate = +(process.argv[3] || 1), url = process.argv[4] || 'http://localhost:8766/?nogate';
   const b = await chromium.launch();
   let o;
   if (mode === 'mobile') { o = { ...devices['iPhone 13'] }; delete o.defaultBrowserType; }

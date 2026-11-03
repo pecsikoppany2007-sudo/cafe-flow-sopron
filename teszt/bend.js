@@ -4,7 +4,7 @@ const { chromium } = require(require('child_process').execSync('npm root -g').to
   const b = await chromium.launch(); const errs = [];
   const p = await b.newPage({ viewport: { width: 1440, height: 900 } }); p.on('pageerror', e => errs.push(e.message));
   await p.addInitScript(() => { const g = WebGLRenderingContext.prototype.getParameter; WebGLRenderingContext.prototype.getParameter = function (k) { return k === 0x9246 ? 'ANGLE (Apple, Apple M1, OpenGL 4.1)' : g.call(this, k); }; });
-  await p.goto('http://localhost:8766/'); await p.waitForTimeout(5000);
+  await p.goto('http://localhost:8766/?nogate'); await p.waitForTimeout(5000);
   console.log('hero-3d', await p.evaluate(() => document.documentElement.classList.contains('hero-3d')));
   const px = () => p.evaluate(() => { const c = document.querySelector('.hero__gl'); const g = c.getContext('webgl', { preserveDrawingBuffer: true }); const a = new Uint8Array(4); g.readPixels(c.width * .55 | 0, c.height * .5 | 0, 1, 1, g.RGBA, g.UNSIGNED_BYTE, a); return [...a].join(','); });
   console.log('px center', await px());
@@ -32,7 +32,7 @@ const { chromium } = require(require('child_process').execSync('npm root -g').to
   console.log('nav cur', await p.evaluate(() => [...document.querySelectorAll('#navLinks a.is-cur')].map(a => a.getAttribute('href')).join()));
   // telefon: fülek vízszintes görgetés, cső a helyén
   const m = await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true }); m.on('pageerror', e => errs.push(e.message));
-  await m.goto('http://localhost:8766/#etlap'); await m.waitForTimeout(3000);
+  await m.goto('http://localhost:8766/?nogate#etlap'); await m.waitForTimeout(3000);
   await m.tap('#tabs button:nth-child(6)'); await m.waitForTimeout(1200);
   console.log('m tab tube', await m.evaluate(() => { const t = document.querySelector('#tabs .tube').getBoundingClientRect(), a = document.querySelector('#tabs [aria-selected="true"]').getBoundingClientRect(); return [t.left | 0, a.left | 0, t.width | 0, a.width | 0, document.documentElement.scrollWidth]; }));
   console.log('errors', errs.join('\n') || 'none');

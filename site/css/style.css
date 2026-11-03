@@ -485,3 +485,33 @@ html.hero-3d .hero__gl { opacity: 1; }
 html.can-3d .hero__l { transform: scale(1.05); }
 /* a rács hajszálvonalai a fotók mögött futnak, nem vágnak át rajtuk */
 @media (min-width: 1024px) { .ph, .tour__ph, .hours__wide, .coffee__photo { position: relative; z-index: 26; } }
+
+/* v5: egérlámpa a sötét részeken (világos szakaszon kialszik) */
+.lamp { position: fixed; left: 0; top: 0; z-index: 30; width: 560px; height: 560px; margin: -280px 0 0 -280px; border-radius: 50%; pointer-events: none; opacity: 0; background: radial-gradient(closest-side, rgba(110, 150, 255, .13), rgba(91, 140, 255, .055) 45%, rgba(91, 140, 255, 0) 100%); transition: opacity .6s; will-change: transform; }
+.lamp.is-on { opacity: 1; }
+.lamp.is-light { opacity: 0; }
+
+/* ================================================================ v5: kapu (csak az első látogatáskor): a neonfelirat betűnként gyullad */
+.gate { display: none; }
+html.gate-on { overflow: hidden; }
+html.gate-on .gate { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; background: radial-gradient(120% 80% at 50% 45%, #121a30 0%, #0b1020 60%, #080c18 100%); overflow: hidden; cursor: pointer; }
+html.gate-on .lamp { z-index: 92; }
+.gate__wall { position: absolute; left: 50%; top: 44%; width: min(1300px, 150vw); height: min(760px, 90vw); margin: calc(min(760px, 90vw) / -2) 0 0 calc(min(1300px, 150vw) / -2); background: radial-gradient(closest-side, rgba(91, 140, 255, .2), rgba(91, 140, 255, .07) 50%, rgba(91, 140, 255, 0) 100%); pointer-events: none; }
+.gate__in { position: relative; text-align: center; padding: 0 var(--gut); }
+.gate__sign { margin: 0; white-space: nowrap; font: 400 clamp(2.4rem, 9.4vw, 8.6rem)/1.1 var(--body); letter-spacing: .2em; color: #f5f7fd; will-change: transform; }
+.gate__cafe { font: italic 300 1.5em/1 var(--head); letter-spacing: 0; margin-right: .16em; }
+.gl { position: relative; display: inline-block; }
+.gl__off { color: rgba(170, 186, 224, .13); }
+.gl__on { position: absolute; left: 0; top: 0; color: #f5f7fd; text-shadow: 0 0 1px rgba(255, 255, 255, .85), 0 0 10px rgba(91, 140, 255, .8), 0 0 34px rgba(91, 140, 255, .42), 0 0 80px rgba(91, 140, 255, .2); }
+.gate__flow .gl:last-child { margin-right: -.2em; }
+.neon--gate { width: min(34rem, 82vw); height: auto; margin: clamp(10px, 2vh, 22px) auto 0; }
+.gate__addr { max-width: none; margin: clamp(12px, 2.4vh, 26px) auto clamp(26px, 5vh, 54px); font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: rgba(236, 232, 224, .6); }
+.gate__go { position: relative; display: inline-flex; align-items: center; gap: 14px; min-height: 54px; padding: 0 30px; background: rgba(9, 14, 28, .5); border: 1px solid rgba(201, 163, 90, .55); color: #f3f5fb; font: 600 15px/1 var(--body); letter-spacing: .04em; cursor: pointer; }
+.gate__go::before { content: ''; position: absolute; inset: 4px; border: 1px solid #f3f7ff; box-shadow: var(--tube-box), inset 0 0 7px rgba(91, 140, 255, .4); opacity: .8; transition: opacity .35s; pointer-events: none; }
+.gate__go:hover::before, .gate__go:focus-visible::before { opacity: 1; animation: ign .65s linear; }
+.gate__go i { width: 1px; height: 16px; background: #f3f7ff; box-shadow: var(--tube-box); position: relative; animation: gateCue 1.8s var(--ease) infinite; }
+@keyframes gateCue { 0% { transform: translateY(-5px); opacity: 0; } 35% { opacity: 1; } 100% { transform: translateY(6px); opacity: 0; } }
+@media (max-width: 767px) {
+  .gate__sign { font-size: 12.6vw; letter-spacing: .14em; }
+  .gate__addr { font-size: 13px; }
+}

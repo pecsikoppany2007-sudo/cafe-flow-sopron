@@ -1,6 +1,6 @@
 // node shot.js desk|iph|pix [lang]  -> intro frames + section screenshots + errors + overflow
 const { chromium, devices } = require('playwright');
-const URL = process.env.URL || 'http://localhost:8766/';
+const URL = process.env.URL || 'http://localhost:8766/?nogate';
 const OUT = __dirname + '/out/';
 (async () => {
   const dev = process.argv[2] || 'desk', lang = process.argv[3] || 'hu';

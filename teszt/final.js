@@ -4,7 +4,7 @@ const OUT = __dirname + '/kepernyokepek/';
 require('fs').mkdirSync(OUT, { recursive: true });
 (async () => {
   const b = await chromium.launch();
-  async function page(o, lang) { delete o.defaultBrowserType; const c = await b.newContext(o); const p = await c.newPage(); await p.goto('http://localhost:8766/?lang=' + lang, { waitUntil: 'domcontentloaded' }); return [c, p]; }
+  async function page(o, lang) { delete o.defaultBrowserType; const c = await b.newContext(o); const p = await c.newPage(); await p.goto('http://localhost:8766/?nogate&lang=' + lang, { waitUntil: 'domcontentloaded' }); return [c, p]; }
   async function at(p, sel, off = 70, wait = 2600) { const y = await p.evaluate(s => document.querySelector(s).getBoundingClientRect().top + scrollY, sel); await p.evaluate(y => scrollTo(0, y), y - off); await p.waitForTimeout(wait); }
   let [c, p] = await page({ viewport: { width: 1440, height: 900 } }, 'hu');
   await p.waitForTimeout(1150); await p.screenshot({ path: OUT + '2-neon-felvillan-gep.jpg', quality: 82 });

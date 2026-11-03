@@ -1,6 +1,6 @@
 // élő nyelvváltás = friss betöltés, menüpontok landolása, fülek, pörkölésváltó, újratöltés középen
 const { chromium, devices } = require('playwright');
-const URL = 'http://localhost:8766/';
+const URL = 'http://localhost:8766/?nogate';
 (async () => {
   const b = await chromium.launch(); const out = [];
   const textOf = p => p.evaluate(() => [...document.querySelectorAll('main, footer')].map(e => e.innerText).join('\n').replace(/Ma \d|Heute \d|Today \d/g, ''));

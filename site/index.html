@@ -16,8 +16,13 @@
   (function () {
     var c = navigator.connection || {};
     if (c.saveData || /(^|-)2g/.test(c.effectiveType || '') || matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('no-intro');
-    document.documentElement.classList.add('js');
-    setTimeout(function () { if (!document.documentElement.classList.contains('intro-started')) document.documentElement.classList.add('no-intro'); }, 2600);
+    var d = document.documentElement;
+    d.classList.add('js');
+    var seen = false; try { seen = !!sessionStorage.getItem('flow-gate'); } catch (e) {}
+    if (!d.classList.contains('no-intro') && !seen && !location.hash && !/nogate/.test(location.search) && matchMedia('(min-width: 300px)').matches) d.classList.add('gate-on');
+    setTimeout(function () { if (!d.classList.contains('intro-started') && !d.classList.contains('gate-on')) d.classList.add('no-intro'); }, 2600);
+    // ha a szkript nem indul el, a kapu ne zárja el az oldalt
+    setTimeout(function () { if (d.classList.contains('gate-on') && !d.classList.contains('gate-run')) { d.classList.remove('gate-on'); d.classList.add('no-intro'); } }, 3000);
   })();
 </script>
 <script type="application/ld+json">
@@ -43,6 +48,15 @@
 </head>
 <body>
 <a class="skip" href="#rolunk" data-i18n="skip">Ugrás a tartalomra</a>
+<div class="gate" id="gate">
+  <div class="gate__wall" aria-hidden="true"></div>
+  <div class="gate__in">
+    <p class="gate__sign" aria-label="Cafe Flow"><span class="gate__cafe" aria-hidden="true"><span class="gl"><span class="gl__off">C</span><span class="gl__on">C</span></span><span class="gl"><span class="gl__off">a</span><span class="gl__on">a</span></span><span class="gl"><span class="gl__off">f</span><span class="gl__on">f</span></span><span class="gl"><span class="gl__off">e</span><span class="gl__on">e</span></span></span><span class="gate__flow" aria-hidden="true"><span class="gl"><span class="gl__off">F</span><span class="gl__on">F</span></span><span class="gl"><span class="gl__off">L</span><span class="gl__on">L</span></span><span class="gl"><span class="gl__off">O</span><span class="gl__on">O</span></span><span class="gl"><span class="gl__off">W</span><span class="gl__on">W</span></span></span></p>
+    <svg class="neon neon--gate" viewBox="0 0 640 70" aria-hidden="true"></svg>
+    <p class="gate__addr"><span data-i18n="hero.addr">Várkerület 53.</span> · Sopron</p>
+    <button class="gate__go" type="button"><span data-i18n="gate.go">Belépés</span><i aria-hidden="true"></i></button>
+  </div>
+</div>
 
 <header class="nav" id="nav">
   <a class="nav__brand" href="#top" aria-label="Cafe Flow"><span class="nav__cafe">Cafe</span> <span class="nav__flow">FLOW</span></a>
@@ -130,9 +144,6 @@
     </div>
   </section>
 
-  <div class="flowline" aria-hidden="true">
-    <svg class="neon neon--div" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMid meet" data-neon="M0 70 C 180 70, 330 92, 470 76 C 560 66, 600 34, 580 22 C 556 8, 528 40, 566 62 C 640 104, 820 52, 1000 60 C 1080 64, 1150 70, 1200 70"></svg>
-  </div>
 
   <section class="coffee" id="kave">
     <div class="coffee__grid">

@@ -1,6 +1,6 @@
 // v2 próba: node v2.js desk|iph [lang] -> hibák, túlcsordulás, rejtve maradt elemek, görgő tényleg görget (Lenis), képek
 const { chromium, devices } = require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright');
-const URL = process.env.URL || 'http://localhost:8766/';
+const URL = process.env.URL || 'http://localhost:8766/?nogate';
 const OUT = __dirname + '/out/v2-';
 (async () => {
   const dev = process.argv[2] || 'desk', lang = process.argv[3] || 'hu';
