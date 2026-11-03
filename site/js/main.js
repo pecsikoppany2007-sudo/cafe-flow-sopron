@@ -8,6 +8,17 @@
 
   var canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
   var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // valódi grafikus chip kell a WebGL-es nyitóképhez (szoftveres renderelésen akadna)
+  var hwGpu = (function () {
+    try {
+      var c = document.createElement('canvas'), g = c.getContext('webgl');
+      if (!g) return false;
+      var ext = g.getExtension('WEBGL_debug_renderer_info');
+      var r = ext ? String(g.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : '';
+      var lose = g.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext();
+      return !/swiftshader|llvmpipe|softpipe|software|basic render/i.test(r);
+    } catch (e) { return false; }
+  })();
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var NS = 'http://www.w3.org/2000/svg';
@@ -318,6 +329,7 @@
     renderPanel(activeTab, false);
     renderHours();
     if (typeof buildIndex === 'function') buildIndex();
+    tubes(save ? 'lang' : '');
     if (save) { try { localStorage.setItem('flow-lang', l); } catch (e) {} }
     ScrollTrigger.refresh();
   }
@@ -348,6 +360,30 @@
     });
   }
 
+  /* ------------------------------------------------------------------ neoncső a választott elem alatt (nyelv, étlap fül, pörkölés) */
+  function placeTube(box, el, tube, pad, ign) {
+    if (!box || !el || !tube || !el.offsetWidth) return;
+    var first = !tube.style.getPropertyValue('--w');
+    if (first) tube.classList.add('no-tr');
+    tube.style.setProperty('--x', (el.offsetLeft + pad) + 'px');
+    tube.style.setProperty('--y', (el.offsetTop + el.offsetHeight - (pad ? 4 : 1)) + 'px');
+    tube.style.setProperty('--w', (el.offsetWidth - 2 * pad) + 'px');
+    if (first) { void tube.offsetWidth; tube.classList.remove('no-tr'); }
+    if (ign && !reduced) { tube.classList.remove('ign'); void tube.offsetWidth; tube.classList.add('ign'); }
+  }
+  function tubes(which) {
+    var lb = $('.nav__lang'), lt = $('.tube', lb);
+    if (!lt) { lt = document.createElement('span'); lt.className = 'tube'; lt.setAttribute('aria-hidden', 'true'); lb.appendChild(lt); }
+    placeTube(lb, $('[aria-pressed="true"]', lb), lt, 7, which === 'lang');
+    var tb = $('#tabs');
+    placeTube(tb, $('[aria-selected="true"]', tb), $('.tube', tb), 0, which === 'tab');
+    var rb = $('.roast');
+    placeTube(rb, $('[aria-checked="true"]', rb), $('.roast__mark', rb), 0, which === 'roast');
+  }
+  var tubeT = 0;
+  window.addEventListener('resize', function () { clearTimeout(tubeT); tubeT = setTimeout(tubes, 150); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { tubes(); });
+
   /* ------------------------------------------------------------------ ízesített kávék futószalagja */
   var marq = $('#marq');
   function buildMarq() {
@@ -370,6 +406,7 @@
     var box = $('.roast'); box.setAttribute('data-v', v);
     $$('.roast button').forEach(function (b) { b.setAttribute('aria-checked', +b.getAttribute('data-roast') === v ? 'true' : 'false'); });
     $('#roastNote').textContent = t('roast.' + v);
+    tubes('roast');
     var prs = $$('.pr', classicList);
     prs.forEach(function (pr, i) {
       var c = CLASSIC[i];
@@ -401,8 +438,9 @@
   var capEl = document.createElement('figcaption'); photo.appendChild(capEl);
   function renderTabs() {
     tabsEl.innerHTML = TABS.map(function (tb, i) {
-      return '<button type="button" role="tab" id="tab-' + tb.id + '" aria-controls="menuPanel" aria-selected="' + (i === activeTab) + '" tabindex="' + (i === activeTab ? 0 : -1) + '">' + esc(L(tb.l)) + '</button>';
-    }).join('');
+      var n = tb.g.reduce(function (a, g) { return a + (g.items ? g.items.length : 0); }, 0);
+      return '<button type="button" role="tab" id="tab-' + tb.id + '" aria-controls="menuPanel" aria-selected="' + (i === activeTab) + '" tabindex="' + (i === activeTab ? 0 : -1) + '">' + esc(L(tb.l)) + (n ? '<sup aria-hidden="true">' + (n < 10 ? '0' : '') + n + '</sup>' : '') + '</button>';
+    }).join('') + '<span class="tube" aria-hidden="true"></span>';
     $$('button', tabsEl).forEach(function (b, i) {
       b.addEventListener('click', function () { selectTab(i, true); });
       b.addEventListener('keydown', function (e) {
@@ -428,8 +466,8 @@
   }
   function setPhoto(tb, animate) {
     var s = IMG[tb.img];
-    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=3';
-    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=3 ' + w + 'w'; }).join(', ');
+    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=4';
+    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=4 ' + w + 'w'; }).join(', ');
     var cap = L(tb.cap);
     if (!animate) { photoImg.srcset = srcset; photoImg.sizes = '(max-width: 1023px) 0px, 40vw'; photoImg.src = src; photoImg.alt = cap; capEl.textContent = cap; return; }
     var pre = new Image(); pre.sizes = '40vw'; pre.srcset = srcset; pre.src = src;
@@ -454,6 +492,7 @@
     activeTab = i;
     $$('button', tabsEl).forEach(function (b, j) { b.setAttribute('aria-selected', j === i ? 'true' : 'false'); b.tabIndex = j === i ? 0 : -1; });
     renderPanel(i, animate);
+    tubes('tab');
     var btn = $$('button', tabsEl)[i];
     if (btn && tabsEl.scrollWidth > tabsEl.clientWidth) tabsEl.scrollTo({ left: btn.offsetLeft - 20, behavior: reduced ? 'auto' : 'smooth' });
     ScrollTrigger.refresh();
@@ -510,7 +549,7 @@
     this.t = 0; this.draw(0);
   }
   Neon.prototype.shape = function (r, t) {
-    var P = this.P, T = this.T, n = P.length - 1, k = t * n, i0 = Math.floor(k), f = k - i0;
+    var P = this.Pd || this.P, T = this.T, n = P.length - 1, k = t * n, i0 = Math.floor(k), f = k - i0;
     if (t <= 0) return '';
     var pts = P.slice(0, i0 + 1), tg = T.slice(0, i0 + 1);
     if (i0 < n && f > 0) {
@@ -598,12 +637,138 @@
     setTimeout(function () { if (!started) { html.classList.add('no-intro'); started = true; finishIntro(); } }, 2400);
   }
 
+  /* ------------------------------------------------------------------ neonvonal: az egér elnyomja, rugóként visszaleng */
+  var bendables = [];
+  Neon.prototype.bendable = function () {
+    var self = this, P = this.P, T = this.T, n = P.length;
+    var o = { ox: new Float32Array(n), oy: new Float32Array(n), vx: new Float32Array(n), vy: new Float32Array(n), mx: null, my: null, vis: false, run: false, sc: 1 };
+    this.bend = o;
+    function step() {
+      var A = 12 * o.sc, R = 70 * o.sc, R2 = R * R, e = 0, Pd = self.Pd || P.map(function (p) { return [p[0], p[1]]; });
+      for (var i = 0; i < n; i++) {
+        var tx = 0, ty = 0;
+        if (o.mx !== null) {
+          var dx = P[i][0] - o.mx, dy = P[i][1] - o.my, d2 = dx * dx + dy * dy;
+          if (d2 < R2 * 4) {
+            var nx = -T[i][1], ny = T[i][0], sd = dx * nx + dy * ny, f = Math.exp(-d2 / R2), push = Math.max(0, A * f - Math.abs(sd) * .35);
+            var side = sd >= 0 ? 1 : -1; tx = nx * side * push; ty = ny * side * push;
+          }
+        }
+        o.vx[i] = (o.vx[i] + (tx - o.ox[i]) * .14) * .8; o.vy[i] = (o.vy[i] + (ty - o.oy[i]) * .14) * .8;
+        o.ox[i] += o.vx[i]; o.oy[i] += o.vy[i];
+        e += Math.abs(o.ox[i]) + Math.abs(o.vx[i]) + Math.abs(o.oy[i]) + Math.abs(o.vy[i]);
+        Pd[i][0] = P[i][0] + o.ox[i]; Pd[i][1] = P[i][1] + o.oy[i];
+      }
+      self.Pd = Pd; self.draw(self.t);
+      if (e < .02 * n && o.mx === null) { o.run = false; self.Pd = null; o.ox.fill(0); o.oy.fill(0); o.vx.fill(0); o.vy.fill(0); self.draw(self.t); gsap.ticker.remove(step); }
+    }
+    o.kick = function () { if (!o.run) { o.run = true; gsap.ticker.add(step); } };
+    bendables.push(this);
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { o.vis = es[0].isIntersecting; }).observe(this.svg);
+  };
+  if (canHover && !reduced) {
+    neons.forEach(function (nn) { nn.bendable(); });
+    window.addEventListener('pointermove', function (e) {
+      for (var i = 0; i < bendables.length; i++) {
+        var nn = bendables[i], o = nn.bend;
+        if (!o.vis || nn.t < 1 || nn.svg.classList.contains('is-drawing')) continue;
+        var r = nn.svg.getBoundingClientRect(), vb = nn.svg.viewBox.baseVal, sc = vb.width / r.width;
+        var near = e.clientX > r.left - 60 && e.clientX < r.right + 60 && e.clientY > r.top - 60 && e.clientY < r.bottom + 60;
+        if (near) { o.sc = sc; o.mx = (e.clientX - r.left) * sc + vb.x; o.my = (e.clientY - r.top) * sc + vb.y; o.kick(); }
+        else if (o.mx !== null) { o.mx = null; o.kick(); }
+      }
+    }, { passive: true });
+  }
+
+  /* ------------------------------------------------------------------ nyitókép térben: mélységtérkép szerint mozdul az egérre (asztali gép, valódi GPU) */
+  var G = { ok: false, m: [0, 0], mT: [0, 0], run: false, vis: true };
+  var heroEl = $('#hero');
+  if (canHover && !reduced && hwGpu && !window.__noGl) (function () {
+    var VS = 'attribute vec2 a;varying vec2 v;void main(){v=vec2(a.x*.5+.5,.5-a.y*.5);gl_Position=vec4(a,0.,1.);}';
+    var FS = [
+      'precision highp float;varying vec2 v;',
+      'uniform sampler2D uI,uD;uniform vec2 uRes,uM;uniform float uAR,uOver;',
+      'const vec2 POS=vec2(.6,.18);',
+      'vec2 img(vec2 p){float sa=uRes.x/uRes.y;vec2 s=sa>uAR?vec2(1.,uAR/sa):vec2(sa/uAR,1.);',
+      ' vec2 o=(1.-s)*POS;vec2 c=o+.5*s;return c+(o+p*s-c)/uOver;}',
+      'void main(){vec2 p=v;',
+      ' for(int i=0;i<3;i++){float d=texture2D(uD,img(p)).r;p=v+uM*(d-.45)*vec2(.027,.019);}',
+      ' gl_FragColor=vec4(texture2D(uI,img(p)).rgb,1.);}'
+    ].join('\n');
+    html.classList.add('can-3d');
+    var cv = document.createElement('canvas'); cv.className = 'hero__gl'; cv.setAttribute('aria-hidden', 'true');
+    $('.hero__stack').appendChild(cv);
+    var gl = cv.getContext('webgl', { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: 'high-performance' });
+    if (!gl) return;
+    function sh(tp, src) { var x = gl.createShader(tp); gl.shaderSource(x, src); gl.compileShader(x); return gl.getShaderParameter(x, gl.COMPILE_STATUS) ? x : null; }
+    var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS); if (!vs || !fs) return;
+    var pr = gl.createProgram(); gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr);
+    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return;
+    gl.useProgram(pr);
+    var b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    var al = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(al); gl.vertexAttribPointer(al, 2, gl.FLOAT, false, 0, 0);
+    var U = {}; ['uI', 'uD', 'uRes', 'uM', 'uAR', 'uOver'].forEach(function (nm) { U[nm] = gl.getUniformLocation(pr, nm); });
+    function tex(unit, src) {
+      var tx = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tx);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, src);
+    }
+    var im = heroOn, dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-depth.webp?v=4';
+    var lastW = 0, lastH = 0;
+    function size() {
+      var w = cv.clientWidth, h = cv.clientHeight, dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      lastW = innerWidth; lastH = innerHeight;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      gl.viewport(0, 0, cv.width, cv.height); gl.uniform2f(U.uRes, w, h);
+    }
+    function draw() { gl.uniform2f(U.uM, G.m[0], G.m[1]); gl.drawArrays(gl.TRIANGLES, 0, 3); }
+    function frame() {
+      var moving = false;
+      for (var i = 0; i < 2; i++) {
+        var dm = G.mT[i] - G.m[i];
+        if (Math.abs(dm) > .0008) { G.m[i] += dm * .055; moving = true; } else G.m[i] = G.mT[i];
+      }
+      draw();
+      if (!moving || !G.vis) { G.run = false; gsap.ticker.remove(frame); }
+    }
+    G.kick = function () { if (G.ok && G.vis && !G.run) { G.run = true; gsap.ticker.add(frame); } };
+    var load = function () {
+      var w = im.decode ? im.decode().catch(function () {}) : null;
+      var d = dep.decode ? dep.decode() : new Promise(function (r) { dep.onload = r; });
+      Promise.all([w, d]).then(function () {
+        if (!im.naturalWidth || !dep.naturalWidth) return;
+        tex(0, im); tex(1, dep);
+        gl.uniform1i(U.uI, 0); gl.uniform1i(U.uD, 1);
+        gl.uniform1f(U.uAR, im.naturalWidth / im.naturalHeight); gl.uniform1f(U.uOver, 1.05);
+        G.ok = true; size(); draw();
+        html.classList.add('hero-3d');
+      }).catch(function () {});
+    };
+    // a felvillanó nyitány után vesszük át a képet (addig a három réteg animál)
+    var waitIntro = function () { if (introDone) load(); else setTimeout(waitIntro, 200); };
+    waitIntro();
+    cv.addEventListener('webglcontextlost', function (e) { e.preventDefault(); G.ok = false; html.classList.remove('hero-3d'); });
+    heroEl.addEventListener('pointermove', function (e) { G.mT[0] = (e.clientX / innerWidth - .5) * 2; G.mT[1] = (e.clientY / innerHeight - .5) * 2; G.kick(); });
+    heroEl.addEventListener('pointerleave', function () { G.mT[0] = G.mT[1] = 0; G.kick(); });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { G.vis = es[0].isIntersecting; if (G.vis) G.kick(); }).observe(heroEl);
+    window.addEventListener('resize', function () {
+      if (!G.ok) return;
+      if (innerWidth !== lastW || Math.abs(innerHeight - lastH) > 160) { size(); draw(); }
+    });
+  })();
+
   /* ------------------------------------------------------------------ menüsor */
   var nav = $('#nav'), burger = $('#burger');
   ScrollTrigger.create({ trigger: '#hero', start: 'bottom top+=90', onEnter: function () { nav.classList.add('is-solid'); }, onLeaveBack: function () { nav.classList.remove('is-solid'); } });
   burger.addEventListener('click', function () {
     var open = !nav.classList.contains('is-open');
     nav.classList.toggle('is-open', open); burger.setAttribute('aria-expanded', open);
+  });
+  $$('#navLinks a').forEach(function (a) {
+    var sec = $(a.getAttribute('href'));
+    if (sec) ScrollTrigger.create({ trigger: sec, start: 'top 45%', end: 'bottom 45%', onToggle: function (st) { a.classList.toggle('is-cur', st.isActive); } });
   });
   $$('#navLinks a').forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); }); });
   $$('.nav__lang button').forEach(function (b) { b.addEventListener('click', function () { applyLang(b.getAttribute('data-lang'), true); }); });
@@ -675,7 +840,7 @@
     if (canHover) {
       gsap.to('.hero__stack', { yPercent: 12, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
       gsap.to('.hero__text', { y: -60, opacity: 0, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'center center', end: 'bottom top', scrub: true } });
-      gsap.fromTo('.intro__small', { y: 60 }, { y: -40, ease: 'none', scrollTrigger: { trigger: '.intro', start: 'top bottom', end: 'bottom top', scrub: true } });
+      
       gsap.fromTo('.up__b', { y: 70 }, { y: -30, ease: 'none', scrollTrigger: { trigger: '.up__b', start: 'top bottom', end: 'bottom top', scrub: true } });
       gsap.fromTo('.hours__wide img', { yPercent: -8, scale: 1.16 }, { yPercent: 8, scale: 1.16, ease: 'none', scrollTrigger: { trigger: '.hours__wide', start: 'top bottom', end: 'bottom top', scrub: true } });
     }
