@@ -27,6 +27,8 @@
   var T = {
     de: {
       'gate.go': 'Eintreten',
+      'rev.title': 'Bewertungen', 'rev.g': '1026 Bewertungen auf Google', 'rev.t': '6 Bewertungen auf Tripadvisor', 'rev.write': 'Bewertung schreiben', 'rev.all': 'Bewertungen auf Google',
+      'rev.d1': 'Tripadvisor, März 2026', 'rev.d2': 'Tripadvisor, August 2026', 'rev.note': 'Originaltext der Gäste, auf Englisch.', 'idx.rev': 'Bewertungen',
       'skip': 'Zum Inhalt',
       'nav.menu': 'Speisekarte', 'nav.coffee': 'Kaffee', 'nav.upstairs': 'Obergeschoss', 'nav.hours': 'Öffnungszeiten', 'nav.open': 'Menü',
       'hero.title': 'Café an der Grabenrunde in Sopron', 'hero.addr': 'Várkerület 53.', 'hero.menu': 'Speisekarte', 'hero.route': 'Route planen',
@@ -70,6 +72,8 @@
     },
     en: {
       'gate.go': 'Come in',
+      'rev.title': 'Reviews', 'rev.g': '1026 reviews on Google', 'rev.t': '6 reviews on Tripadvisor', 'rev.write': 'Write a review', 'rev.all': 'Reviews on Google',
+      'rev.d1': 'Tripadvisor, March 2026', 'rev.d2': 'Tripadvisor, August 2026', 'rev.note': 'Quoted as the guests wrote them.', 'idx.rev': 'Reviews',
       'skip': 'Skip to content',
       'nav.menu': 'Menu', 'nav.coffee': 'Coffee', 'nav.upstairs': 'Upstairs', 'nav.hours': 'Opening hours', 'nav.open': 'Menu',
       'hero.title': 'Café on Várkerület in Sopron', 'hero.addr': 'Várkerület 53.', 'hero.menu': 'Menu', 'hero.route': 'Directions',
@@ -113,6 +117,8 @@
     },
     hu: {
       'gate.go': 'Belépés',
+      'rev.title': 'Értékelések', 'rev.g': '1026 értékelés a Google-on', 'rev.t': '6 értékelés a Tripadvisoron', 'rev.write': 'Írj értékelést', 'rev.all': 'Vélemények a Google-on',
+      'rev.d1': 'Tripadvisor, 2026. március', 'rev.d2': 'Tripadvisor, 2026. augusztus', 'rev.note': 'A vendégek eredeti, angol nyelvű szövege.', 'idx.rev': 'Értékelések',
       'coffee.roast': 'Pörkölés',
       'roast.0': 'Sötét pörkölés: brazil santos és ugandai robusta keveréke. Csokis, mogyorós, fűszeres.',
       'roast.1': 'Világos pörkölés: egyetlen eredetből, ami időnként változik. Kérdezd meg a pultnál, épp melyik van.',
@@ -469,8 +475,8 @@
   }
   function setPhoto(tb, animate) {
     var s = IMG[tb.img];
-    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=5';
-    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=5 ' + w + 'w'; }).join(', ');
+    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=6';
+    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=6 ' + w + 'w'; }).join(', ');
     var cap = L(tb.cap);
     if (!animate) { photoImg.srcset = srcset; photoImg.sizes = '(max-width: 1023px) 0px, 40vw'; photoImg.src = src; photoImg.alt = cap; capEl.textContent = cap; return; }
     var pre = new Image(); pre.sizes = '40vw'; pre.srcset = srcset; pre.src = src;
@@ -733,7 +739,7 @@
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, src);
     }
-    var im = heroOn, dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-depth.webp?v=5';
+    var im = heroOn, dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-depth.webp?v=6';
     var lastW = 0, lastH = 0;
     function size() {
       var w = cv.clientWidth, h = cv.clientHeight, dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -907,6 +913,14 @@
         gsap.to(img, { scale: 1, duration: 2, ease: 'expo.out', clearProps: 'transform', onComplete: function () { img.style.willChange = ''; } });
       } });
     });
+    $$('.score__n').forEach(function (el) {
+      var to = parseFloat(el.getAttribute('data-to')), o = { v: 0 };
+      el.setAttribute('aria-label', to.toFixed(1).replace('.', ',')); el.textContent = '0,0';
+      ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true, onEnter: function () {
+        gsap.to(o, { v: to, duration: 1.6, ease: 'expo.out', onUpdate: function () { el.textContent = o.v.toFixed(1).replace('.', ','); } });
+        var st = el.parentNode.querySelector('.stars__on'); if (st) gsap.fromTo(st, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.4, ease: 'power3.out', delay: .15 });
+      } });
+    });
     neons.slice(1).forEach(function (n) {
       if (n === footNeon) return;
       ScrollTrigger.create({ trigger: n.svg, start: 'top 84%', once: true, onEnter: function () { n.play(2.4); } });
@@ -1074,7 +1088,7 @@
 
   /* ------------------------------------------------------------------ bal szél: szakaszjelölő; világos szakaszban sötét jelek */
   var idxEl = null, idxLinks = [];
-  var IDX = [['rolunk', 'idx.about'], ['korbe', 'tour.title'], ['kave', 'nav.coffee'], ['etlap', 'nav.menu'], ['emelet', 'nav.upstairs'], ['haz', 'idx.shop'], ['nyitvatartas', 'nav.hours']];
+  var IDX = [['rolunk', 'idx.about'], ['korbe', 'tour.title'], ['kave', 'nav.coffee'], ['etlap', 'nav.menu'], ['emelet', 'nav.upstairs'], ['haz', 'idx.shop'], ['ertekelesek', 'idx.rev'], ['nyitvatartas', 'nav.hours']];
   function buildIndex() {
     if (!idxEl) return;
     var on = idxLinks.map(function (a) { return a.classList.contains('is-on'); });
