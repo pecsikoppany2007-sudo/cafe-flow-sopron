@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cafe Flow, kávézó a soproni Várkerületen</title>
+<meta name="description" content="Kávézó és reggelizőhely Sopronban, a Várkerület 53.-ban. Kávé sötét és világos pörkölésből, reggeli, sütemények, emeleti terem rendezvényekre. Minden nap nyitva.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0e1424">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/antonio-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/hanken-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="img/hero-off-1600.webp?v=2" imagesrcset="img/hero-off-1000.webp?v=2 1000w, img/hero-off-1600.webp?v=2 1600w, img/hero-off-2400.webp?v=2 2400w" imagesizes="(max-width: 767px) 210vw, 100vw">
+<link rel="stylesheet" href="css/style.css?v=2">
+<script>
+  (function () {
+    var c = navigator.connection || {};
+    if (c.saveData || /(^|-)2g/.test(c.effectiveType || '') || matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('no-intro');
+    document.documentElement.classList.add('js');
+    setTimeout(function () { if (!document.documentElement.classList.contains('intro-started')) document.documentElement.classList.add('no-intro'); }, 2600);
+  })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "name": "Cafe Flow",
+  "image": "img/hero-on-1600.webp",
+  "address": { "@type": "PostalAddress", "streetAddress": "Várkerület 53.", "addressLocality": "Sopron", "postalCode": "9400", "addressCountry": "HU" },
+  "geo": { "@type": "GeoCoordinates", "latitude": 47.685556, "longitude": 16.593402 },
+  "email": "cafeflowsopron@gmail.com",
+  "servesCuisine": ["Kávé", "Reggeli", "Sütemény"],
+  "priceRange": "$$",
+  "sameAs": ["https://www.facebook.com/cafeflowsopron", "https://cafeflow.hu/"],
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"], "opens": "08:00", "closes": "20:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "08:00", "closes": "22:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:30", "closes": "22:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "09:00", "closes": "20:00" }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#rolunk" data-i18n="skip">Ugrás a tartalomra</a>
+
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#top" aria-label="Cafe Flow"><span class="nav__cafe">Cafe</span> <span class="nav__flow">FLOW</span></a>
+  <nav class="nav__links" id="navLinks" aria-label="Fő menü">
+    <a href="#etlap" data-i18n="nav.menu">Étlap</a>
+    <a href="#kave" data-i18n="nav.coffee">Kávé</a>
+    <a href="#emelet" data-i18n="nav.upstairs">Emelet</a>
+    <a href="#nyitvatartas" data-i18n="nav.hours">Nyitvatartás</a>
+  </nav>
+  <div class="nav__lang" role="group" aria-label="Nyelv / Sprache / Language">
+    <button type="button" data-lang="hu" aria-pressed="true">HU</button>
+    <button type="button" data-lang="de" aria-pressed="false">DE</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+  <button class="nav__burger" id="burger" type="button" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span class="sr" data-i18n="nav.open">Menü</span></button>
+</header>
+
+<main id="top">
+  <section class="hero" id="hero">
+    <div class="hero__media" aria-hidden="true">
+      <div class="hero__stack">
+        <img class="hero__l hero__off" src="img/hero-off-1600.webp?v=2" srcset="img/hero-off-1000.webp?v=2 1000w, img/hero-off-1600.webp?v=2 1600w, img/hero-off-2400.webp?v=2 2400w" sizes="(max-width: 767px) 210vw, 100vw" alt="" fetchpriority="high" decoding="async">
+        <img class="hero__l hero__sign" src="img/hero-sign-1600.webp?v=2" srcset="img/hero-sign-1000.webp?v=2 1000w, img/hero-sign-1600.webp?v=2 1600w, img/hero-sign-2400.webp?v=2 2400w" sizes="(max-width: 767px) 210vw, 100vw" alt="" decoding="async">
+        <img class="hero__l hero__on" src="img/hero-on-1600.webp?v=2" srcset="img/hero-on-1000.webp?v=2 1000w, img/hero-on-1600.webp?v=2 1600w, img/hero-on-2400.webp?v=2 2400w" sizes="(max-width: 767px) 210vw, 100vw" alt="" decoding="async">
+      </div>
+      <div class="hero__shade"></div>
+    </div>
+    <div class="hero__text">
+      <h1 class="hero__title" data-i18n="hero.title">Kávézó a soproni Várkerületen</h1>
+      <svg class="neon neon--hero" viewBox="0 0 640 70" aria-hidden="true" data-neon="M4 44 C 90 44, 170 46, 250 40 C 300 36, 330 14, 312 8 C 292 2, 282 34, 318 44 C 370 58, 470 46, 636 40"></svg>
+      <p class="hero__sub"><span data-i18n="hero.addr">Várkerület 53.</span> <span class="dot" aria-hidden="true"></span> <span id="todayLine">Minden nap nyitva</span></p>
+      <div class="hero__btns">
+        <a class="btn btn--light" href="#etlap" data-i18n="hero.menu">Étlap</a>
+        <a class="btn btn--line" href="https://www.google.com/maps/search/?api=1&amp;query=Cafe%20Flow%20Sopron%20V%C3%A1rker%C3%BClet%2053&amp;query_place_id=ChIJQe7v2eE9bEcRaV_MksBhbnI" target="_blank" rel="noopener" data-i18n="hero.route">Útvonaltervezés</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="intro" id="rolunk" data-cur="light">
+    <div class="intro__grid">
+      <div class="intro__text">
+        <h2 class="lm" data-i18n="intro.title">2018 óta a Várkerületen</h2>
+        <p class="rv" data-i18n="intro.p1">2018-ban nyitottunk itt, és öt évig Cafe Frei partnerként dolgoztunk. Amióta önállóak vagyunk, Cafe Flow a nevünk, és az itallapot is mi állítjuk össze.</p>
+        <p class="rv" data-i18n="intro.p2">A földszinten a pult mellett kék bársony padok állnak a festett falpanelek előtt. Az aranyszínű csigalépcső az emeletre visz, ott rendezvényeket is tartunk.</p>
+        <p class="intro__rating rv"><a href="https://www.google.com/maps/search/?api=1&amp;query=Cafe%20Flow%20Sopron&amp;query_place_id=ChIJQe7v2eE9bEcRaV_MksBhbnI" target="_blank" rel="noopener"><strong>4,6</strong> <span data-i18n="intro.rating">a Google-on, 1026 értékelés alapján</span></a></p>
+      </div>
+      <figure class="intro__big ph rv-img">
+        <img src="img/pult-1400.webp?v=2" srcset="img/pult-800.webp?v=2 800w, img/pult-1400.webp?v=2 1400w, img/pult-2000.webp?v=2 2000w" sizes="(max-width: 767px) 100vw, 58vw" width="2560" height="1707" alt="A pult a csigalépcsővel és a banánfával" data-i18n-alt="alt.pult" loading="lazy" decoding="async">
+      </figure>
+      <figure class="intro__small ph rv-img">
+        <img src="img/croissant-800.webp?v=2" srcset="img/croissant-800.webp?v=2 800w, img/croissant-1400.webp?v=2 1400w" sizes="(max-width: 767px) 70vw, 26vw" width="1707" height="2560" alt="Croissant és kávé a kék bársony padon" data-i18n-alt="alt.croissant" loading="lazy" decoding="async">
+        <figcaption data-i18n="cap.croissant">Croissant és kávé a kék padon</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="tour" id="korbe">
+    <div class="tour__stage">
+      <div class="tour__track" id="tourTrack">
+        <div class="tour__intro">
+          <h2 class="lm" data-i18n="tour.title">Körbenézés</h2>
+          <p class="rv" data-i18n="tour.p">Pár kép a kávézóról, a pulttól a teraszig.</p>
+        </div>
+        <figure class="tour__item tour__item--w">
+          <div class="tour__ph"><img src="img/vitrin-1400.webp?v=2" srcset="img/vitrin-800.webp?v=2 800w, img/vitrin-1400.webp?v=2 1400w, img/vitrin-2000.webp?v=2 2000w" sizes="(max-width: 1023px) 86vw, 100vh" width="2560" height="1707" alt="A pult üvegvitrinje" data-i18n-alt="alt.vitrin" loading="lazy" decoding="async"></div>
+          <figcaption><span class="tour__n">01</span><span data-i18n="tour.c1">A vitrin a pultnál</span></figcaption>
+        </figure>
+        <figure class="tour__item tour__item--w">
+          <div class="tour__ph"><img src="img/falfestes-1400.webp?v=2" srcset="img/falfestes-800.webp?v=2 800w, img/falfestes-1400.webp?v=2 1400w, img/falfestes-2000.webp?v=2 2000w" sizes="(max-width: 1023px) 86vw, 100vh" width="2560" height="1709" alt="A földszint a festett fali paneleknél, kék bársony paddal" data-i18n-alt="alt.falfestes" loading="lazy" decoding="async"></div>
+          <figcaption><span class="tour__n">02</span><span data-i18n="tour.c2">Kék bársony padok a festett falpanelek előtt</span></figcaption>
+        </figure>
+        <figure class="tour__item tour__item--t">
+          <div class="tour__ph"><img src="img/sarok-800.webp?v=2" srcset="img/sarok-800.webp?v=2 800w, img/sarok-1400.webp?v=2 1400w" sizes="(max-width: 1023px) 60vw, 46vh" width="1707" height="2560" alt="Fotelek egy kerek asztalnál az emeleten" data-i18n-alt="alt.sarok" loading="lazy" decoding="async"></div>
+          <figcaption><span class="tour__n">03</span><span data-i18n="tour.c3">Az emeleten</span></figcaption>
+        </figure>
+        <figure class="tour__item tour__item--w">
+          <div class="tour__ph"><img src="img/terasz-1400.webp?v=2" srcset="img/terasz-800.webp?v=2 800w, img/terasz-1400.webp?v=2 1400w, img/terasz-2000.webp?v=2 2000w" sizes="(max-width: 1023px) 86vw, 100vh" width="2048" height="1365" alt="A terasz a Várkerületen, a kék cégtábla alatt" data-i18n-alt="alt.terasz" loading="lazy" decoding="async"></div>
+          <figcaption><span class="tour__n">04</span><span data-i18n="tour.c4">Terasz a Várkerületen, kora tavasztól</span></figcaption>
+        </figure>
+        <svg class="neon neon--tour" id="tourNeon" aria-hidden="true"></svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="flowline" aria-hidden="true">
+    <svg class="neon neon--div" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMid meet" data-neon="M0 70 C 180 70, 330 92, 470 76 C 560 66, 600 34, 580 22 C 556 8, 528 40, 566 62 C 640 104, 820 52, 1000 60 C 1080 64, 1150 70, 1200 70"></svg>
+  </div>
+
+  <section class="coffee" id="kave">
+    <div class="coffee__grid">
+      <div class="coffee__head">
+        <h2 class="lm" data-i18n="coffee.title">Kávé két pörkölésből</h2>
+        <p class="rv" data-i18n="coffee.p1">A kávét a CrackerJack Coffee Roasters pörköli nekünk. Minden klasszikus kávét kérhetsz sötét vagy világos pörkölésből, a világos 40–100 forinttal drágább.</p>
+      </div>
+      <figure class="coffee__photo ph rv-img">
+        <img src="img/latte-1400.webp?v=2" srcset="img/latte-800.webp?v=2 800w, img/latte-1400.webp?v=2 1400w" sizes="(max-width: 767px) 100vw, 30vw" width="3200" height="4800" alt="Latte art croissant mellett" data-i18n-alt="alt.latte" loading="lazy" decoding="async">
+      </figure>
+      <div class="coffee__card rv">
+        <div class="roast" role="radiogroup" aria-label="Pörkölés" data-i18n-aria="coffee.roast">
+          <button type="button" role="radio" aria-checked="true" data-roast="0" data-i18n="coffee.dark">Sötét pörkölés</button>
+          <button type="button" role="radio" aria-checked="false" data-roast="1" data-i18n="coffee.light">Világos pörkölés</button>
+          <span class="roast__mark" aria-hidden="true"></span>
+        </div>
+        <p class="roast__note" id="roastNote" aria-live="polite"></p>
+        <ul class="prices" id="classicList"></ul>
+        <p class="small" data-i18n="coffee.extras">Mandulaital, zabital, kókuszital vagy laktózmentes tej +250 Ft. Extra shot 350 Ft sötét, 400 Ft világos pörkölésből. Tejszínhab 350 Ft.</p>
+      </div>
+      <div class="coffee__flav">
+        <div class="flav__intro">
+        <h3 class="rv" data-i18n="flav.title">Ízesített kávék</h3>
+        <p class="rv" data-i18n="flav.p">Húsz van az itallapon. Sok közülük egy város vagy ország nevét viseli: Havanna, Isztambul, Salzburg, Bali, Piemont, Marokkó, Párizs.</p>
+        </div>
+        <div class="flav rv">
+          <div class="flav__head" aria-hidden="true"><span></span><span data-i18n="flav.esp">espresso</span><span data-i18n="flav.cap">cappuccino</span><span data-i18n="flav.lat">latte</span></div>
+          <ul id="flavList"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marq" aria-hidden="true"><div class="marq__track" id="marq"></div></div>
+
+  <section class="menu" id="etlap" data-cur="light">
+    <div class="menu__band" aria-hidden="true"></div>
+    <div class="menu__inner">
+      <div class="menu__top">
+        <h2 class="lm" data-i18n="menu.title">Étlap</h2>
+        <p class="rv small" data-i18n="menu.note">Árak forintban, a 2026. januári menülapunk szerint. Wolton és foodorán a saját áraik érvényesek.</p>
+      </div>
+      <div class="tabs" role="tablist" id="tabs" aria-label="Étlap"></div>
+      <div class="menu__body">
+        <div class="menu__list" id="menuPanel" role="tabpanel" tabindex="0"></div>
+        <figure class="menu__photo" id="menuPhoto">
+          <img alt="" width="1200" height="800" loading="lazy" decoding="async">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="up" id="emelet">
+    <div class="up__grid">
+      <figure class="up__stair ph rv-img">
+        <img src="img/csiga-1400.webp?v=2" srcset="img/csiga-800.webp?v=2 800w, img/csiga-1400.webp?v=2 1400w, img/csiga-2000.webp?v=2 2000w" sizes="(max-width: 767px) 100vw, 52vw" width="2560" height="1707" alt="A csigalépcső és a leopárdszobor" data-i18n-alt="alt.csiga" loading="lazy" decoding="async">
+      </figure>
+      <svg class="neon neon--helix" viewBox="0 0 220 900" aria-hidden="true" id="helix"></svg>
+      <div class="up__text">
+        <h2 class="lm" data-i18n="up.title">Rendezvény az emeleten</h2>
+        <p class="rv" data-i18n="up.p1">A csigalépcső a felső szintre visz. A terem leválasztható, 30+10 fő fér el benne, és az asztalokat úgy rendezzük, ahogy kéred.</p>
+        <p class="rv" data-i18n="up.p2">Születésnapra, ballagásra, céges eseményre vagy családi összejövetelre is kiadjuk. Írd meg a dátumot és a létszámot, és küldünk ajánlatot.</p>
+        <a class="btn btn--light rv" href="mailto:cafeflowsopron@gmail.com?subject=Rendezv%C3%A9ny%20az%20emeleten" data-i18n="up.btn" data-mail-subject="up.subject">Ajánlatkérés e-mailben</a>
+      </div>
+      <figure class="up__a ph rv-img">
+        <img src="img/emelet-800.webp?v=2" srcset="img/emelet-800.webp?v=2 800w, img/emelet-1400.webp?v=2 1400w" sizes="(max-width: 767px) 100vw, 34vw" width="2560" height="2560" alt="A felső szint világos terme" data-i18n-alt="alt.emelet" loading="lazy" decoding="async">
+        <figcaption data-i18n="cap.emelet">A felső szint</figcaption>
+      </figure>
+      <figure class="up__b ph rv-img">
+        <img src="img/kulonterem-800.webp?v=2" srcset="img/kulonterem-800.webp?v=2 800w, img/kulonterem-1400.webp?v=2 1400w" sizes="(max-width: 767px) 100vw, 40vw" width="2560" height="1709" alt="A különterem tapétás fala és tölgy komódja" data-i18n-alt="alt.kulonterem" loading="lazy" decoding="async">
+        <figcaption data-i18n="cap.kulonterem">A különterem</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="house" id="haz" data-cur="light">
+    <div class="house__grid">
+      <figure class="house__packs ph rv-img">
+        <img src="img/csomagok-800.webp?v=2" srcset="img/csomagok-800.webp?v=2 800w, img/csomagok-1400.webp?v=2 1400w" sizes="(max-width: 767px) 100vw, 40vw" width="2560" height="1707" alt="Cafe Flow kávé- és teacsomagok" data-i18n-alt="alt.csomagok" loading="lazy" decoding="async">
+      </figure>
+      <div class="house__s">
+        <h2 class="lm" data-i18n="house.shop">Kávé és tea haza</h2>
+        <p class="rv" data-i18n="house.shopP">A szemes kávét és a szálas teákat a polcról is megveheted. Ha kéred, olyan finomra őröljük a kávét, amilyen a te kávéfőződhöz kell.</p>
+        <p class="rv" data-i18n="house.decaf">Koffeinmentes kávénk a kolumbiai Finca la Caoba farmról jön, nugát, kakaóbab és citrus ízjegyekkel. A pultnál is kérhetsz koffeinmentes kávét.</p>
+        <p class="rv small" data-i18n="house.card">Ingyenes törzskártyánk is van, kérdezz rá a pultnál.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="hours" id="nyitvatartas">
+    <div class="hours__grid">
+      <div class="hours__main">
+        <h2 class="lm" data-i18n="hours.title">Nyitvatartás</h2>
+        <table class="htable rv" id="htable">
+          <tbody>
+            <tr data-days="1,2,3,4"><th data-i18n="hours.mt">Hétfő–csütörtök</th><td>8:00–20:00</td></tr>
+            <tr data-days="5"><th data-i18n="hours.fr">Péntek</th><td>8:00–22:00</td></tr>
+            <tr data-days="6"><th data-i18n="hours.sa">Szombat</th><td>8:30–22:00</td></tr>
+            <tr data-days="0"><th data-i18n="hours.su">Vasárnap</th><td>9:00–20:00</td></tr>
+          </tbody>
+        </table>
+        <p class="small rv" id="nowLine" aria-live="polite"></p>
+      </div>
+      <div class="hours__contact">
+        <h2 class="lm" data-i18n="contact.title">Elérhetőség</h2>
+        <dl class="contact rv">
+          <dt data-i18n="contact.addr">Cím</dt><dd>9400 Sopron, Várkerület 53.</dd>
+          <dt data-i18n="contact.mail">E-mail</dt><dd><a href="mailto:cafeflowsopron@gmail.com">cafeflowsopron@gmail.com</a></dd>
+          <dt>Facebook</dt><dd><a href="https://www.facebook.com/cafeflowsopron" target="_blank" rel="noopener">facebook.com/cafeflowsopron</a></dd>
+          <dt data-i18n="contact.delivery">Házhozszállítás</dt><dd><a href="https://wolt.com/hu/hun/sopron/restaurant/cafe-flow" target="_blank" rel="noopener">Wolt</a>, <a href="https://www.foodora.hu/restaurant/hfwc/cafe-flow" target="_blank" rel="noopener">foodora</a></dd>
+        </dl>
+        <a class="btn btn--light rv" href="https://www.google.com/maps/search/?api=1&amp;query=Cafe%20Flow%20Sopron%20V%C3%A1rker%C3%BClet%2053&amp;query_place_id=ChIJQe7v2eE9bEcRaV_MksBhbnI" target="_blank" rel="noopener" data-i18n="hero.route">Útvonaltervezés</a>
+      </div>
+    </div>
+    <figure class="hours__wide ph rv-img">
+      <img src="img/ajto-1400.webp?v=2" srcset="img/ajto-800.webp?v=2 800w, img/ajto-1400.webp?v=2 1400w, img/ajto-2000.webp?v=2 2000w" sizes="100vw" width="2560" height="1707" alt="A bejárat este, a világító Cafe FLOW cégtáblával" data-i18n-alt="alt.ajto" loading="lazy" decoding="async">
+    </figure>
+  </section>
+</main>
+
+<footer class="foot" id="foot">
+  <p class="foot__sign" aria-hidden="true"><span class="sign sign--off"><i>Cafe</i> FLOW</span><span class="sign sign--on"><i>Cafe</i> FLOW</span></p>
+  <svg class="neon neon--foot" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMid meet" aria-hidden="true" data-neon="M0 64 C 200 64, 360 40, 520 56 C 590 63, 612 92, 592 102 C 570 112, 556 78, 600 64 C 700 34, 900 66, 1200 60"></svg>
+  <div class="foot__grid">
+    <p><span class="foot__k" data-i18n="contact.addr">Cím</span>9400 Sopron, Várkerület 53.</p>
+    <p><span class="foot__k" data-i18n="contact.mail">E-mail</span><a href="mailto:cafeflowsopron@gmail.com">cafeflowsopron@gmail.com</a></p>
+    <p><span class="foot__k">Online</span><a href="https://www.facebook.com/cafeflowsopron" target="_blank" rel="noopener">Facebook</a> · <a href="https://wolt.com/hu/hun/sopron/restaurant/cafe-flow" target="_blank" rel="noopener">Wolt</a> · <a href="https://www.foodora.hu/restaurant/hfwc/cafe-flow" target="_blank" rel="noopener">foodora</a></p>
+  </div>
+  <p class="foot__small"><span data-i18n="foot.company">Üzemeltető: Cafe World Kft.</span> · <span data-i18n="foot.photos">Fotók: Cafe Flow (cafeflow.hu)</span><br><span data-i18n="foot.demo">Bemutató oldal, nem a Cafe Flow hivatalos weboldala.</span></p>
+</footer>
+
+<script src="js/gsap.min.js?v=2" defer></script>
+<script src="js/ScrollTrigger.min.js?v=2" defer></script>
+<script src="js/lenis.min.js?v=2" defer></script>
+<script src="js/main.js?v=2" defer></script>
+</body>
+</html>
