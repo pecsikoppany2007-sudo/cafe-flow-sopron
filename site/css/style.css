@@ -49,11 +49,6 @@ p { margin: 0 0 1em; max-width: 62ch; }
 :focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
 
 /* gombok: szögletesek */
-.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 26px; font: 600 16px/1 var(--body); text-decoration: none; border: 1px solid transparent; border-radius: 0; transition: background-color .25s, color .25s, border-color .25s; cursor: pointer; }
-.btn--light { background: var(--cream); color: var(--ink); }
-.btn--light:hover { background: var(--brass); }
-.btn--line { border-color: rgba(241, 235, 224, .55); color: var(--cream); }
-.btn--line:hover { border-color: var(--cream); background: rgba(241, 235, 224, .08); }
 
 /* menüsor */
 .nav { position: fixed; z-index: 40; top: 0; left: 0; right: 0; height: 68px; display: flex; align-items: center; gap: 28px; padding: 0 var(--gut); transition: background-color .35s, border-color .35s; border-bottom: 1px solid transparent; }
@@ -84,9 +79,9 @@ p { margin: 0 0 1em; max-width: 62ch; }
 .hero__title .w > span { display: inline-block; }
 .js:not(.no-intro):not(.intro-done) .hero__title .w > span { transform: translateY(110%); }
 .neon--hero { width: min(31rem, 92%); height: auto; margin: 14px 0 18px -4px; }
-.hero__sub { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 18px; margin-bottom: 26px; }
+.hero__sub { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; font: 600 12.5px/1.4 var(--body); letter-spacing: .2em; text-transform: uppercase; color: rgba(243, 240, 234, .82); margin-bottom: 0; }
 .hero__sub .dot { width: 5px; height: 5px; background: var(--brass); display: inline-block; }
-.hero__btns { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero__btns { width: min(26rem, 100%); margin-top: 30px; color: #f3f0ea; }
 .js:not(.no-intro):not(.intro-done) .hero__sub, .js:not(.no-intro):not(.intro-done) .hero__btns { opacity: 0; transform: translateY(18px); }
 .js:not(.no-intro):not(.intro-done) .nav { opacity: 0; }
 
@@ -266,7 +261,6 @@ p { margin: 0 0 1em; max-width: 62ch; }
   .hero__title { font-size: clamp(2.6rem, 11.6vw, 3.6rem); }
   .neon--hero { margin: 8px 0 12px -2px; }
   .hero__sub { font-size: 16.5px; margin-bottom: 20px; }
-  .hero__btns .btn { flex: 1 1 140px; }
   .intro__photos { margin-top: 40px; }
   .intro__big img { aspect-ratio: 4 / 3; object-position: 40% 60%; }
   .coffee__head, .coffee__card { grid-column: 1 / 13; }
@@ -301,9 +295,6 @@ html.lenis, html.lenis body { height: auto; }
 .js .lm:not(.is-split) { opacity: 0; }
 
 /* gombok: a betűk felgördülnek */
-.btn .rl { display: inline-flex; overflow: hidden; line-height: 1.4; height: 1.4em; padding: 0; }
-.btn .rl i { display: inline-block; font-style: normal; white-space: pre; text-shadow: 0 1.4em currentColor; transition: transform .6s var(--ease); transition-delay: calc(var(--i) * 14ms); }
-@media (hover: hover) and (pointer: fine) { .btn:hover .rl i { transform: translateY(-1.4em); } }
 
 /* körbenézés: asztali gépen vízszintes sáv, érintőn húzható sor */
 .tour { position: relative; background: var(--night); --cur: var(--night); }
@@ -354,14 +345,6 @@ html.is-curtain main { position: relative; z-index: 1; box-shadow: 0 40px 80px r
 html.is-curtain .foot { position: sticky; bottom: 0; z-index: 0; }
 
 /* neon kör kurzor (csak egérrel) */
-.cursor, .cursor-dot { position: fixed; left: 0; top: 0; z-index: 95; pointer-events: none; border-radius: 50%; opacity: 0; transition: opacity .3s, border-color .3s, background-color .3s, box-shadow .3s; will-change: transform; }
-.cursor { width: 38px; height: 38px; margin: -19px 0 0 -19px; border: 1px solid var(--neon); box-shadow: 0 0 6px rgba(91, 140, 255, .6), inset 0 0 5px rgba(91, 140, 255, .3); }
-.cursor-dot { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--neon); box-shadow: 0 0 8px 1px rgba(91, 140, 255, .9); }
-.cursor.is-on, .cursor-dot.is-on { opacity: 1; }
-.cursor.is-link { background-color: rgba(91, 140, 255, .14); }
-.cursor.is-light { border-color: var(--ink); box-shadow: 0 0 8px rgba(91, 140, 255, .45); }
-.cursor-dot.is-light { background: var(--ink); box-shadow: none; }
-.cursor-dot.is-link { opacity: 0; }
 html.has-cursor, html.has-cursor * { cursor: none !important; }
 
 /* jobb szél: soproni idő és nyitva/zárva; bal szél: szakaszok */
@@ -390,7 +373,6 @@ html.mid-light .idx .idx__l { color: var(--ink); }
   .tour__ph { height: 62vw; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .btn .rl i { transition: none; }
 }
 .up__text h2 { font-size: clamp(2.4rem, 4.3vw, 4.2rem); }
 
@@ -400,8 +382,6 @@ html.mid-light .idx .idx__l { color: var(--ink); }
 .grid-lines > div { position: absolute; top: 0; bottom: 0; left: max(var(--gut), calc(50% - 660px)); right: max(var(--gut), calc(50% - 660px)); }
 .grid-lines i { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(150, 162, 196, .075); }
 @media (min-width: 1024px) { .grid-lines { display: block; } }
-.btn { font-weight: 600; letter-spacing: .01em; }
-.btn--line { border-color: rgba(241, 235, 224, .4); }
 .intro__rating strong { letter-spacing: -.02em; }
 @media (min-width: 768px) { .flav__head { letter-spacing: .08em; text-transform: uppercase; font-size: 11px; } }
 .contact dt, .foot__k { letter-spacing: .12em; text-transform: uppercase; font-size: 12px; }
@@ -438,14 +418,6 @@ html.mid-light .idx .idx__l { color: var(--ink); }
 }
 
 /* gombok: sötét doboz sárgaréz kerettel, benne körbefutó neoncső; rámutatásra kigyullad */
-.btn { position: relative; isolation: isolate; min-height: 56px; padding: 0 32px; background: rgba(9, 14, 28, .5); border: 1px solid rgba(201, 163, 90, .55); color: #f3f5fb; --lit: .8; transition: border-color .3s, background-color .3s; }
-.btn::before { content: ''; position: absolute; inset: 4px; z-index: -1; border: 1px solid #f3f7ff; box-shadow: var(--tube-box), inset 0 0 7px rgba(91, 140, 255, .4); opacity: var(--lit); pointer-events: none; transition: opacity .35s; }
-.btn--light, .btn--line { background: rgba(9, 14, 28, .5); color: #f3f5fb; border-color: rgba(201, 163, 90, .55); }
-.btn--line { --lit: .2; }
-.btn:hover, .btn:focus-visible { --lit: 1; background: rgba(18, 28, 58, .62); border-color: rgba(201, 163, 90, .95); color: #fff; }
-.btn:hover::before { animation: ign .65s linear; }
-.btn .rl i { text-shadow: 0 1.4em 0 currentColor, 0 0 9px rgba(91, 140, 255, 0), 0 1.4em 9px rgba(91, 140, 255, 0); transition: transform .6s var(--ease), text-shadow .4s; transition-delay: calc(var(--i) * 14ms), 0s; }
-.btn:hover .rl i { text-shadow: 0 1.4em 0 currentColor, 0 0 9px rgba(91, 140, 255, .7), 0 1.4em 9px rgba(91, 140, 255, .7); }
 
 /* étlap fülek: talpas szavak, a választott alatt neoncső; mellettük a tételek száma */
 .tabs { position: relative; gap: 4px clamp(18px, 2.4vw, 36px); border-bottom: 1px solid rgba(23, 32, 56, .16); padding-bottom: 0; margin-bottom: 38px; }
@@ -467,12 +439,11 @@ html.mid-light .idx .idx__l { color: var(--ink); }
   .nav__links a::after { display: none; }
   .nav__burger span:not(.sr) { background: #f3f7ff; box-shadow: 0 0 5px rgba(91, 140, 255, .8), 0 0 12px rgba(91, 140, 255, .35); }
   .nav__lang button { padding: 10px 6px 12px; }
-  .btn { min-height: 54px; padding: 0 22px; }
   .tabs { gap: 0 22px; }
   .tabs button { font-size: 1.3rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .nav__links a:hover, .btn:hover::before, .tube.ign { animation: none; }
+  .nav__links a:hover, .tube.ign { animation: none; }
   .tube, .roast .roast__mark { transition: none; }
 }
 
@@ -503,10 +474,6 @@ html.gate-on .lamp { z-index: 92; }
 .gate__flow .gl:last-child { margin-right: -.2em; }
 .neon--gate { width: min(34rem, 82vw); height: auto; margin: clamp(10px, 2vh, 22px) auto 0; }
 .gate__addr { max-width: none; margin: clamp(12px, 2.4vh, 26px) auto clamp(26px, 5vh, 54px); font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: rgba(236, 232, 224, .6); }
-.gate__go { position: relative; display: inline-flex; align-items: center; gap: 14px; min-height: 54px; padding: 0 30px; background: rgba(9, 14, 28, .5); border: 1px solid rgba(201, 163, 90, .55); color: #f3f5fb; font: 600 15px/1 var(--body); letter-spacing: .04em; cursor: pointer; }
-.gate__go::before { content: ''; position: absolute; inset: 4px; border: 1px solid #f3f7ff; box-shadow: var(--tube-box), inset 0 0 7px rgba(91, 140, 255, .4); opacity: .8; transition: opacity .35s; pointer-events: none; }
-.gate__go:hover::before, .gate__go:focus-visible::before { opacity: 1; animation: ign .65s linear; }
-.gate__go i { width: 1px; height: 16px; background: #f3f7ff; box-shadow: var(--tube-box); position: relative; animation: gateCue 1.8s var(--ease) infinite; }
 @keyframes gateCue { 0% { transform: translateY(-5px); opacity: 0; } 35% { opacity: 1; } 100% { transform: translateY(6px); opacity: 0; } }
 @media (max-width: 767px) {
   .gate__sign { font-size: 12.6vw; letter-spacing: .14em; }
@@ -544,15 +511,48 @@ html.gate-on .lamp { z-index: 92; }
 html[lang="hu"] .rev__note { display: none; }
 .rev__ask { margin-top: clamp(44px, 5vw, 64px); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px 26px; }
 .rev__ask p { margin: 0; font: 300 1.35rem/1.3 var(--head); color: var(--ink); }
-.rev__ask .btn { background: var(--ink); border-color: var(--ink); color: #f7f3eb; --lit: .55; }
-.rev__ask .btn::before { border-color: #e6c88a; box-shadow: 0 0 3px rgba(214, 170, 88, .85), 0 0 12px rgba(201, 163, 90, .45), inset 0 0 6px rgba(214, 170, 88, .3); }
-.rev__ask .btn:hover, .rev__ask .btn:focus-visible { background: #1d2846; border-color: #1d2846; color: #fff; --lit: 1; }
-.rev__ask .btn .rl i { text-shadow: 0 1.4em 0 currentColor; }
 @media (max-width: 1023px) {
   .rev__list { grid-template-columns: 1fr; max-width: 40rem; margin-left: auto; margin-right: auto; }
 }
 @media (max-width: 767px) {
   .rev__score span:last-child { font-size: 14px; }
   .rev__ask { flex-direction: column; gap: 16px; }
-  .rev__ask .btn { width: 100%; }
+}
+
+/* ================================================================ v8: neonos kurzor és linkek (a Café Flow saját nyelve) */
+/* kurzor: kis izzó pont; link fölött összehúzódik (a link saját csöve gyullad ki); fotón kicsit nagyobb, áttetsző */
+.cursor { position: fixed; left: 0; top: 0; z-index: 95; width: 0; height: 0; pointer-events: none; opacity: 0; transition: opacity .4s; will-change: transform; }
+.cursor::before { content: ''; position: absolute; left: 0; top: 0; width: 7px; height: 7px; border-radius: 4px; transform: translate(-50%, -50%); background: #f6f3ec; box-shadow: 0 0 6px rgba(91, 140, 255, .55); transition: width .45s var(--ease), height .45s var(--ease), background-color .35s, box-shadow .35s, opacity .35s; }
+.cursor.is-on { opacity: 1; }
+.cursor.is-link::before { width: 4px; height: 4px; opacity: .55; box-shadow: none; }
+.cursor.is-photo::before { width: 12px; height: 12px; border-radius: 6px; opacity: .75; }
+.cursor.is-light::before { background: var(--ink); box-shadow: none; }
+.cursor.is-light.is-photo::before { background: #f6f3ec; }
+
+/* link: felirat és utána egy kis neoncső nyílheggyel; egérre a cső megnyúlik és felvillanva kigyullad */
+.fl { --tc: rgba(243, 240, 234, .42); --on: #f3f7ff; --glow: drop-shadow(0 0 3px rgba(91, 140, 255, .95)) drop-shadow(0 0 9px rgba(91, 140, 255, .5)); display: inline-flex; align-items: center; gap: 18px; padding: 10px 0; text-decoration: none; color: inherit; background: none; border: 0; font: inherit; cursor: pointer; }
+.fl__t { font: 300 clamp(1.4rem, 1.8vw, 1.75rem)/1.15 var(--head); letter-spacing: -.005em; transition: text-shadow .4s; }
+.fl__tube { position: relative; flex: 0 0 auto; width: 38px; height: 2px; border-radius: 2px; background: var(--tc); transition: width .75s var(--ease), background-color .3s, filter .3s; }
+.fl__tube::after { content: ''; position: absolute; right: 0; top: 50%; width: 8px; height: 8px; border: solid var(--tc); border-width: 2px 2px 0 0; border-radius: 1px; transform: translate(0, -50%) rotate(45deg); transform-origin: 100% 0; transition: border-color .3s; }
+.fl:hover .fl__tube, .fl:focus-visible .fl__tube { width: 62px; --tc: var(--on); filter: var(--glow); animation: ign .6s linear; }
+.fl:hover .fl__t, .fl:focus-visible .fl__t { text-shadow: var(--tube-text); }
+[data-cur="light"] .fl { --tc: rgba(23, 32, 56, .38); --on: #b8914a; --glow: drop-shadow(0 0 3px rgba(214, 170, 88, .8)) drop-shadow(0 0 8px rgba(201, 163, 90, .4)); }
+[data-cur="light"] .fl:hover .fl__t, [data-cur="light"] .fl:focus-visible .fl__t { text-shadow: none; }
+.fl--down .fl__tube { width: 2px; height: 26px; }
+.fl--down .fl__tube::after { right: 50%; top: auto; bottom: 0; transform: translate(50%, 0) rotate(135deg); transform-origin: 50% 50%; }
+.fl--down:hover .fl__tube, .fl--down:focus-visible .fl__tube { width: 2px; height: 38px; }
+.fl--down .fl__tube { transition: height .75s var(--ease), background-color .3s, filter .3s; }
+.hero__btns { display: flex; flex-wrap: wrap; gap: 4px 44px; width: auto; margin-top: 26px; color: #f3f0ea; }
+.up__text .fl, .hours__contact .fl { margin-top: 22px; }
+.gate__go { margin: 0 auto; color: #f3f5fb; }
+.gate__go .fl__t { font-size: clamp(1.3rem, 1.6vw, 1.5rem); }
+.rev__ask { flex-direction: column; gap: 4px; }
+.rev__ask .fl { color: var(--ink); }
+@media (max-width: 767px) {
+  .fl__t { font-size: 1.35rem; }
+  .hero__sub { font-size: 11.5px; letter-spacing: .16em; }
+  .hero__btns { gap: 0 32px; margin-top: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fl__tube, .cursor::before { transition: none; animation: none !important; }
 }

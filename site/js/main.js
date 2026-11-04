@@ -478,8 +478,8 @@
   }
   function setPhoto(tb, animate) {
     var s = IMG[tb.img];
-    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=7';
-    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=7 ' + w + 'w'; }).join(', ');
+    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=8';
+    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=8 ' + w + 'w'; }).join(', ');
     var cap = L(tb.cap);
     if (!animate) { photoImg.srcset = srcset; photoImg.sizes = '(max-width: 1023px) 0px, 40vw'; photoImg.src = src; photoImg.alt = cap; capEl.textContent = cap; return; }
     var pre = new Image(); pre.sizes = '40vw'; pre.srcset = srcset; pre.src = src;
@@ -742,7 +742,7 @@
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, src);
     }
-    var im = heroOn, dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-depth.webp?v=7';
+    var im = heroOn, dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-depth.webp?v=8';
     var lastW = 0, lastH = 0;
     function size() {
       var w = cv.clientWidth, h = cv.clientHeight, dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -1038,53 +1038,39 @@
     if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { en.forEach(function (x) { try { x.isIntersecting ? marqAnim.play() : marqAnim.pause(); } catch (e) {} }); }).observe($('.marq'));
   }
 
-  /* ------------------------------------------------------------------ neon kör kurzor és mágneses gombok (csak egérrel) */
+  /* ------------------------------------------------------------------ kurzor: kis pont, linkek fölött vékony kör, fotón nagyobb pont (csak egérrel) */
   if (canHover) {
-    var cur = document.createElement('div'), dot = document.createElement('div');
-    cur.className = 'cursor'; dot.className = 'cursor-dot';
-    cur.setAttribute('aria-hidden', 'true'); dot.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(cur); document.body.appendChild(dot);
+    var cur = document.createElement('div');
+    cur.className = 'cursor'; cur.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(cur);
     // kis lámpa: halvány kék fény követi az egeret a sötét részeken, kicsit lomhábban, mint a kurzor
     var lamp = document.createElement('div'); lamp.className = 'lamp'; lamp.setAttribute('aria-hidden', 'true'); document.body.appendChild(lamp);
     var gx = -400, gy = -400;
-    var tx = -100, ty = -100, cx = -100, cy = -100, ts = 1, cs = 1, craf = 0, seen = false;
+    var tx = -100, ty = -100, cx = -100, cy = -100, craf = 0, seen = false;
     var k = reduced ? 1 : 0.2;
     var cloop = function () {
-      cx += (tx - cx) * k; cy += (ty - cy) * k; cs += (ts - cs) * (reduced ? 1 : 0.18);
-      cur.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0) scale(' + cs.toFixed(3) + ')';
-      dot.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0)';
+      cx += (tx - cx) * k; cy += (ty - cy) * k;
+      cur.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
       gx += (tx - gx) * (reduced ? 1 : .085); gy += (ty - gy) * (reduced ? 1 : .085);
       lamp.style.transform = 'translate3d(' + gx.toFixed(1) + 'px,' + gy.toFixed(1) + 'px,0)';
-      craf = (Math.abs(tx - cx) + Math.abs(ty - cy) + Math.abs(tx - gx) + Math.abs(ty - gy) + Math.abs(ts - cs) * 40 > 0.15) ? requestAnimationFrame(cloop) : 0;
+      craf = (Math.abs(tx - cx) + Math.abs(ty - cy) + Math.abs(tx - gx) + Math.abs(ty - gy) > 0.15) ? requestAnimationFrame(cloop) : 0;
     };
     var kick = function () { if (!craf) craf = requestAnimationFrame(cloop); };
     document.addEventListener('mousemove', function (e) {
       tx = e.clientX; ty = e.clientY;
-      if (!seen) { seen = true; cx = tx; cy = ty; gx = tx; gy = ty; html.classList.add('has-cursor'); cur.classList.add('is-on'); dot.classList.add('is-on'); lamp.classList.add('is-on'); }
+      if (!seen) { seen = true; cx = tx; cy = ty; gx = tx; gy = ty; html.classList.add('has-cursor'); cur.classList.add('is-on'); lamp.classList.add('is-on'); }
       kick();
     }, { passive: true });
     document.addEventListener('mouseover', function (e) {
       var el = e.target; if (!el.closest) return;
-      var link = el.closest('a, button, [role="tab"], label');
-      var photo = !link && el.closest('.tour__ph, .ph, .menu__photo');
+      var link = !!el.closest('a, button, [role="tab"], [role="radio"], label');
+      var photo = !link && !!el.closest('.tour__ph, .ph, .menu__photo, .coffee__photo, .hours__wide');
       var light = !!el.closest('[data-cur="light"]');
-      ts = link ? 1.75 : photo ? 1.4 : 1;
-      cur.classList.toggle('is-link', !!link); dot.classList.toggle('is-link', !!link);
-      cur.classList.toggle('is-light', light); dot.classList.toggle('is-light', light); lamp.classList.toggle('is-light', light);
-      kick();
+      cur.classList.toggle('is-link', link); cur.classList.toggle('is-photo', photo);
+      cur.classList.toggle('is-light', light); lamp.classList.toggle('is-light', light);
     });
-    document.documentElement.addEventListener('mouseleave', function () { cur.classList.remove('is-on'); dot.classList.remove('is-on'); lamp.classList.remove('is-on'); });
-    document.documentElement.addEventListener('mouseenter', function () { if (seen) { cur.classList.add('is-on'); dot.classList.add('is-on'); lamp.classList.add('is-on'); } });
-    if (!reduced) {
-      $$('.btn').forEach(function (b) {
-        var qx = gsap.quickTo(b, 'x', { duration: 0.5, ease: 'power3.out' }), qy = gsap.quickTo(b, 'y', { duration: 0.5, ease: 'power3.out' });
-        b.addEventListener('mousemove', function (e) {
-          var r = b.getBoundingClientRect();
-          qx((e.clientX - r.left - r.width / 2) * 0.22); qy((e.clientY - r.top - r.height / 2) * 0.32);
-        });
-        b.addEventListener('mouseleave', function () { gsap.to(b, { x: 0, y: 0, duration: 0.9, ease: 'elastic.out(1, 0.45)', overwrite: true }); });
-      });
-    }
+    document.documentElement.addEventListener('mouseleave', function () { cur.classList.remove('is-on'); lamp.classList.remove('is-on'); });
+    document.documentElement.addEventListener('mouseenter', function () { if (seen) { cur.classList.add('is-on'); lamp.classList.add('is-on'); } });
   }
 
   /* ------------------------------------------------------------------ bal szél: szakaszjelölő; világos szakaszban sötét jelek */
