@@ -535,11 +535,6 @@ html[lang="hu"] .rev__note { display: none; }
 /* link: felirat és utána egy kis neoncső nyílheggyel; egérre a cső megnyúlik és felvillanva kigyullad */
 .fl { --tc: rgba(243, 240, 234, .42); --on: #f3f7ff; --glow: drop-shadow(0 0 3px rgba(91, 140, 255, .95)) drop-shadow(0 0 9px rgba(91, 140, 255, .5)); display: inline-flex; align-items: center; gap: 18px; padding: 10px 0; text-decoration: none; color: inherit; background: none; border: 0; font: inherit; cursor: pointer; }
 .fl__t { font: 300 clamp(1.4rem, 1.8vw, 1.75rem)/1.15 var(--head); letter-spacing: -.005em; transition: text-shadow .4s; }
-.fl__sq { flex: 0 0 auto; width: 70px; height: 24px; overflow: visible; fill: none; stroke: var(--tc); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; transition: stroke .3s, filter .3s, transform .8s var(--ease); }
-.fl__sq path { stroke-dasharray: 1; stroke-dashoffset: 0; }
-.fl:hover .fl__sq, .fl:focus-visible .fl__sq { stroke: var(--on); filter: var(--glow); transform: translateX(5px); }
-.fl:hover .fl__sq path, .fl:focus-visible .fl__sq path { animation: flDraw .9s var(--ease) both, ign .7s linear; }
-@keyframes flDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 .fl:hover .fl__t, .fl:focus-visible .fl__t { text-shadow: var(--tube-text); }
 [data-cur="light"] .fl { --tc: rgba(23, 32, 56, .38); --on: #b8914a; --glow: drop-shadow(0 0 3px rgba(214, 170, 88, .8)) drop-shadow(0 0 8px rgba(201, 163, 90, .4)); }
 [data-cur="light"] .fl:hover .fl__t, [data-cur="light"] .fl:focus-visible .fl__t { text-shadow: none; }
@@ -555,7 +550,6 @@ html[lang="hu"] .rev__note { display: none; }
   .hero__btns { gap: 0 32px; margin-top: 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .fl__sq, .fl__sq path, .cursor::before { transition: none; animation: none !important; }
 }
 
 /* ================================================================ v9: egyedi címbetű: Poiret One (vékony, egyvonalas art deco, mint a neoncsövek) */
@@ -564,3 +558,17 @@ h1, h2, .marq__track, .tabs button, .roast button, .fl__t, .intro__rating strong
 .fl { gap: 14px; }
 @media (max-width: 1023px) { .nav__links a { font-family: var(--deco); font-weight: 400; } }
 .hero__title { letter-spacing: 0; }
+
+/* ================================================================ v10: a fény a betűk vonalain folyik végig (nincs jel a felirat mellett) */
+/* a felirat színe egy széles átmenet: elöl izzó, középen kék fényfej, hátul a nyugalmi szín; egérre balról jobbra végigfut */
+.fl { position: relative; padding: 8px 0 12px; --dim: rgba(243, 240, 234, .62); --lit: #ffffff; --head: #7da2ff; --halo: rgba(91, 140, 255, .7); }
+.fl__t { background-image: linear-gradient(90deg, var(--lit) 0%, var(--lit) 41%, var(--head) 46%, var(--head) 48%, var(--dim) 53%, var(--dim) 100%); background-size: 260% 100%; background-position: 100% 0; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 0 rgba(91, 140, 255, 0)); transition: background-position 1.1s cubic-bezier(.45, .05, .25, 1), filter .7s ease .15s; }
+.fl:hover .fl__t, .fl:focus-visible .fl__t { background-position: 0 0; filter: drop-shadow(0 0 6px var(--halo)); text-shadow: none; }
+/* halvány vonal a felirat alatt: ebből látszik, hogy kattintható; a fény után ez is végigizzik */
+.fl::before, .fl::after { content: ''; position: absolute; left: 0; right: 0; bottom: 4px; height: 1px; pointer-events: none; }
+.fl::before { background: currentColor; opacity: .28; }
+.fl::after { background: var(--lit); box-shadow: 0 0 4px var(--halo), 0 0 10px var(--halo); transform: scaleX(0); transform-origin: 0 50%; transition: transform 1s cubic-bezier(.45, .05, .25, 1) .08s; }
+.fl:hover::after, .fl:focus-visible::after { transform: scaleX(1); }
+[data-cur="light"] .fl { --dim: rgba(23, 32, 56, .8); --lit: #9a7434; --head: #d9b46a; --halo: rgba(201, 163, 90, .45); }
+.fl--c::before, .fl--c::after { left: 0; right: 0; }
+@media (hover: none) { .fl::before { opacity: .4; } }
