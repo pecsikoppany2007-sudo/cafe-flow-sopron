@@ -478,8 +478,8 @@
   }
   function setPhoto(tb, animate) {
     var s = IMG[tb.img];
-    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=8';
-    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=8 ' + w + 'w'; }).join(', ');
+    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=9';
+    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=9 ' + w + 'w'; }).join(', ');
     var cap = L(tb.cap);
     if (!animate) { photoImg.srcset = srcset; photoImg.sizes = '(max-width: 1023px) 0px, 40vw'; photoImg.src = src; photoImg.alt = cap; capEl.textContent = cap; return; }
     var pre = new Image(); pre.sizes = '40vw'; pre.srcset = srcset; pre.src = src;
@@ -742,7 +742,7 @@
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, src);
     }
-    var im = heroOn, dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-depth.webp?v=8';
+    var im = heroOn, dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-depth.webp?v=9';
     var lastW = 0, lastH = 0;
     function size() {
       var w = cv.clientWidth, h = cv.clientHeight, dpr = Math.min(window.devicePixelRatio || 1, 1.5);
