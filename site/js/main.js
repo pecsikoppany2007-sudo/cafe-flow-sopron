@@ -22,11 +22,12 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var NS = 'http://www.w3.org/2000/svg';
+  if (!canHover && $('#heroHint')) $('#heroHint').setAttribute('data-i18n', 'hero.hintT');
 
   /* ------------------------------------------------------------------ szövegek */
   var T = {
     de: {
-      'gate.go': 'Eintreten',
+      'gate.go': 'Eintreten', 'hero.hint': 'Fahr mit der Maus über das beschlagene Glas', 'hero.hintT': 'Wisch mit dem Finger über das beschlagene Glas',
       'rev.title': 'Das schreiben unsere Gäste', 'rev.score': 'auf Google, über 1000 Bewertungen', 'rev.src': 'Google-Bewertung',
       'rev.q1': 'Gemütlicher, moderner Ort mit angenehmer Hintergrundmusik, tollem Frühstück, gutem Kaffee und freundlichem Personal. Ein super Start in den Tag!',
       'rev.q2': 'Mein Lieblingscafé in Sopron: riesige Auswahl, freundliches und fachlich gut geschultes Personal, gute Lage, gute Stimmung.',
@@ -73,7 +74,7 @@
       'meta.desc': 'Café und Frühstück in Sopron, Várkerület 53. Kaffee aus dunkler und heller Röstung, Frühstück, Kuchen, Raum für Feiern im Obergeschoss. Täglich geöffnet.'
     },
     en: {
-      'gate.go': 'Come in',
+      'gate.go': 'Come in', 'hero.hint': 'Move your mouse across the misty glass', 'hero.hintT': 'Run your finger across the misty glass',
       'rev.title': 'What our guests say', 'rev.score': 'on Google, over 1,000 reviews', 'rev.src': 'Google review',
       'rev.q1': 'A cosy, modern place with pleasant background music, great breakfasts, good coffee and friendly staff. A great way to start the day!',
       'rev.q2': 'My favourite café in Sopron: a huge selection, kind and well-trained staff, a good spot with a good atmosphere.',
@@ -120,7 +121,7 @@
       'meta.desc': 'Café and breakfast in Sopron, Várkerület 53. Coffee from a dark and a light roast, breakfast, cakes, an upstairs room for events. Open every day.'
     },
     hu: {
-      'gate.go': 'Belépés',
+      'gate.go': 'Belépés', 'hero.hintT': 'Húzd végig az ujjad a párás üvegen',
       'rev.write': 'Írj értékelést', 'idx.rev': 'Értékelések',
       'coffee.roast': 'Pörkölés',
       'roast.0': 'Sötét pörkölés: brazil santos és ugandai robusta keveréke. Csokis, mogyorós, fűszeres.',
@@ -358,6 +359,13 @@
   function splitHeads() {
     $$('.lm').forEach(function (h) {
       var words = h.textContent.trim().split(/ +/);
+      if (!h.closest('[data-cur="light"]')) {
+        // sötét háttéren a cím neoncső: betűnként gyullad ki
+        h.classList.add('nh');
+        h.innerHTML = words.map(function (w) { return '<span class="w"><span>' + Array.from(w).map(function (c) { return '<span class="nl">' + esc(c) + '</span>'; }).join('') + '</span></span>'; }).join(' ');
+        h.classList.add('is-split');
+        return;
+      }
       h.innerHTML = words.map(function (w) { return '<span class="w"><span>' + esc(w) + '</span></span>'; }).join(' ');
       if (!reduced && !h.classList.contains('is-in')) gsap.set($$('.w > span', h), { yPercent: 118 });
       h.classList.add('is-split');
@@ -478,8 +486,8 @@
   }
   function setPhoto(tb, animate) {
     var s = IMG[tb.img];
-    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=11';
-    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=11 ' + w + 'w'; }).join(', ');
+    var src = 'img/' + tb.img + '-' + s[s.length - 1] + '.webp?v=12';
+    var srcset = s.map(function (w) { return 'img/' + tb.img + '-' + w + '.webp?v=12 ' + w + 'w'; }).join(', ');
     var cap = L(tb.cap);
     if (!animate) { photoImg.srcset = srcset; photoImg.sizes = '(max-width: 1023px) 0px, 40vw'; photoImg.src = src; photoImg.alt = cap; capEl.textContent = cap; return; }
     var pre = new Image(); pre.sizes = '40vw'; pre.srcset = srcset; pre.src = src;
@@ -624,6 +632,7 @@
     gsap.set($$('.w > span', titleEl), { clearProps: 'transform' });
     gsap.set(['.hero__sub', '.hero__btns', '.nav'], { opacity: 1, y: 0 });
     if (heroNeon) heroNeon.draw(1);
+    if (FOG) { gsap.set(FOG.el, { opacity: 1 }); setTimeout(function () { var h = $('#heroHint'); if (h) h.classList.add('is-on'); }, 1200); }
   }
   var fromGate = html.classList.contains('gate-on');
   function runIntro() {
@@ -633,6 +642,7 @@
       // a kapun már kigyulladt a felirat: itt csak a belső világítás kapcsol fel
       tl.set(heroSign, { opacity: 1 })
         .to(heroOn, { keyframes: [{ opacity: .55, duration: .08 }, { opacity: .3, duration: .1 }, { opacity: 1, duration: .9, ease: 'power2.out' }] }, .55)
+        .add(function () { if (FOG) { gsap.to(FOG.el, { keyframes: [{ opacity: .5, duration: .08 }, { opacity: .25, duration: .1 }, { opacity: 1, duration: 1.4, ease: 'power2.out' }] }); FOG.auto(1700); } }, .55)
         .to($$('.w > span', titleEl), { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: .07 }, .45)
         .add(function () { if (heroNeon) heroNeon.play(1.3); }, .9)
         .to(['.hero__sub', '.hero__btns'], { opacity: 1, y: 0, duration: .9, ease: 'expo.out', stagger: .1 }, 1.2)
@@ -644,6 +654,7 @@
       .to(heroSign, { keyframes: [{ opacity: .85, duration: .05 }, { opacity: .05, duration: .07 }, { opacity: .9, duration: .04 }, { opacity: .2, duration: .1 }, { opacity: 1, duration: .05 }, { opacity: .6, duration: .05, delay: .18 }, { opacity: 1, duration: .06 }] }, .45)
       // bent felkapcsol a világítás
       .to(heroOn, { keyframes: [{ opacity: .55, duration: .08 }, { opacity: .3, duration: .1 }, { opacity: 1, duration: .9, ease: 'power2.out' }] }, 1.35)
+      .add(function () { if (FOG) { gsap.to(FOG.el, { keyframes: [{ opacity: .5, duration: .08 }, { opacity: .25, duration: .1 }, { opacity: 1, duration: 1.4, ease: 'power2.out' }] }); FOG.auto(1700); } }, 1.35)
       .to($$('.w > span', titleEl), { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: .07 }, 1.05)
       .add(function () { if (heroNeon) heroNeon.play(1.3); }, 1.55)
       .to(['.hero__sub', '.hero__btns'], { opacity: 1, y: 0, duration: .9, ease: 'expo.out', stagger: .1 }, 2.0)
@@ -742,7 +753,7 @@
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, src);
     }
-    var im = heroOn, dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-depth.webp?v=11';
+    var im = heroOn, dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-depth.webp?v=12';
     var lastW = 0, lastH = 0;
     function size() {
       var w = cv.clientWidth, h = cv.clientHeight, dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -750,7 +761,10 @@
       cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
       gl.viewport(0, 0, cv.width, cv.height); gl.uniform2f(U.uRes, w, h);
     }
-    function draw() { gl.uniform2f(U.uM, G.m[0], G.m[1]); gl.drawArrays(gl.TRIANGLES, 0, 3); }
+    function draw() {
+      gl.uniform2f(U.uM, G.m[0], G.m[1]); gl.drawArrays(gl.TRIANGLES, 0, 3);
+      if (FOG) FOG.el.style.transform = 'translate3d(' + (G.m[0] * .3 * .027 * cv.clientWidth).toFixed(2) + 'px,' + (G.m[1] * .3 * .019 * cv.clientHeight).toFixed(2) + 'px,0) scale(1.05)';
+    }
     function frame() {
       var moving = false;
       for (var i = 0; i < 2; i++) {
@@ -790,6 +804,141 @@
       if (!G.ok) return;
       if (innerWidth !== lastW || Math.abs(innerHeight - lastH) > 160) { size(); draw(); }
     });
+  })();
+
+  /* ------------------------------------------------------------------ párás kirakat: az üvegtáblákon pára, egérrel/ujjal letörölhető, lassan visszapárásodik, néha lecsorog egy csepp */
+  var FOG = null;
+  (function () {
+    if (reduced) return;
+    var stack = $('.hero__stack'); if (!stack) return;
+    var CW = 750, CH = 570, S = CW / 1000;
+    // üvegtáblák a 1000x760-as képen (forras/para.py-val egyezik)
+    var PANES = [[323, 283, 440, 578], [475, 307, 610, 585], [641, 317, 755, 600], [783, 312, 855, 432]].map(function (p) { return p.map(function (v) { return v * S; }); });
+    var cv = document.createElement('canvas'); cv.className = 'hero__l hero__fog'; cv.setAttribute('aria-hidden', 'true');
+    cv.width = CW; cv.height = CH;
+    var ctx = cv.getContext('2d'); if (!ctx) return;
+    var mk = document.createElement('canvas'); mk.width = CW; mk.height = CH; var mx = mk.getContext('2d');
+    var br = document.createElement('canvas'); br.width = br.height = 64; var bx = br.getContext('2d');
+    var gr = bx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(.5, 'rgba(0,0,0,.8)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+    bx.fillStyle = gr; bx.fillRect(0, 0, 64, 64);
+    stack.appendChild(cv);
+    var img = new Image(); img.decoding = 'async'; img.src = 'img/hero-fog.webp?v=13';
+    var ok = false, vis = true, run = false, dirty = true, hasMask = false, lastWipe = 0, lastDecay = 0, drops = [], nextDrop = 0, autoT = null;
+    var hint = $('#heroHint'), wiped = 0, hintOff = false;
+    function compose() {
+      ctx.globalCompositeOperation = 'copy'; ctx.globalAlpha = 1; ctx.drawImage(img, 0, 0, CW, CH);
+      if (hasMask) { ctx.globalCompositeOperation = 'destination-out'; ctx.drawImage(mk, 0, 0); }
+      ctx.globalCompositeOperation = 'source-over';
+    }
+    function stamp(x, y, r, a) { mx.globalAlpha = a; mx.drawImage(br, x - r, y - r, r * 2, r * 2); }
+    function stroke(x0, y0, x1, y1, r, a) {
+      var d = Math.sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)), n = Math.max(1, Math.ceil(d / (r * .3)));
+      for (var i = 1; i <= n; i++) stamp(x0 + (x1 - x0) * i / n, y0 + (y1 - y0) * i / n, r, a);
+      hasMask = true; dirty = true; lastWipe = performance.now(); return d;
+    }
+    function inPane(x, y, m) { m = m || 0; for (var i = 0; i < PANES.length; i++) { var p = PANES[i]; if (x > p[0] - m && x < p[2] + m && y > p[1] - m && y < p[3] + m) return i; } return -1; }
+    function spawnDrop() {
+      var p = PANES[Math.floor(Math.random() * PANES.length)];
+      var x = p[0] + 6 + Math.random() * (p[2] - p[0] - 12), y = p[1] + 10 + Math.random() * (p[3] - p[1]) * .45;
+      drops.push({ x: x, y: y, px: x, py: y, end: p[3] - 8 - Math.random() * 30, v: 0, go: 0, r: 1.5 + Math.random() * .9 });
+    }
+    function tick() {
+      var now = performance.now(), busy = false;
+      if (vis && introDone && now > nextDrop) { spawnDrop(); nextDrop = now + 4500 + Math.random() * 5500; }
+      for (var i = drops.length - 1; i >= 0; i--) {
+        var d = drops[i];
+        // a csepp akadozva csúszik le: megáll, aztán újra megindul
+        if (d.go <= 0) { d.go = Math.random() < .03 ? 20 + Math.random() * 40 : 0; d.v *= .6; }
+        else { d.go--; d.v = Math.min(d.v + .05, 1.6); }
+        d.y += d.v; d.x += (Math.random() - .5) * .25;
+        if (d.v > .05) { stroke(d.px, d.py, d.x, d.y, d.r, .85); d.px = d.x; d.py = d.y; }
+        if (d.y >= d.end) drops.splice(i, 1);
+      }
+      if (drops.length) busy = true;
+      if (hasMask) {
+        busy = true;
+        var since = now - lastWipe;
+        if (since > 9000) { mx.clearRect(0, 0, CW, CH); hasMask = false; dirty = true; }
+        else if (since > 1400 && now - lastDecay > 90) {
+          // lassan visszapárásodik
+          lastDecay = now; mx.globalCompositeOperation = 'destination-out'; mx.globalAlpha = .055; mx.fillRect(0, 0, CW, CH);
+          mx.globalCompositeOperation = 'source-over'; dirty = true;
+        }
+      }
+      if (dirty && ok) { compose(); dirty = false; }
+      if (!busy && !autoT) {
+        // nincs mit csinálni: csak a következő cseppre várunk, ritkán ébredünk
+        stop(); setTimeout(start, Math.max(400, nextDrop - now));
+      }
+    }
+    function start() { if (!run && vis && ok) { run = true; gsap.ticker.add(tick); } }
+    function stop() { if (run) { run = false; gsap.ticker.remove(tick); } }
+    // képernyő → vászon koordináta (object-fit: cover, mint a többi rétegnél)
+    var pos = [.6, .16];
+    function readPos() {
+      var op = getComputedStyle(cv).objectPosition.split(' ');
+      pos = [parseFloat(op[0]) / 100 || .6, parseFloat(op[1]) / 100 || .16];
+    }
+    function toC(x, y) {
+      var r = cv.getBoundingClientRect(), lw = cv.offsetWidth, lh = cv.offsetHeight;
+      if (!lw || !r.width) return null;
+      var lx = (x - r.left) * lw / r.width, ly = (y - r.top) * lh / r.height;
+      var s = Math.max(lw / CW, lh / CH);
+      return [(lx - (lw - CW * s) * pos[0]) / s, (ly - (lh - CH * s) * pos[1]) / s, s * r.width / lw];
+    }
+    var last = null;
+    function wipeAt(x, y, brush) {
+      var c = toC(x, y); if (!c) return;
+      if (inPane(c[0], c[1], 30) < 0) { last = null; return; }
+      var r = brush / c[2];
+      if (last && Math.abs(c[0] - last[0]) + Math.abs(c[1] - last[1]) < 90) {
+        var d = stroke(last[0], last[1], c[0], c[1], r, .5);
+        if (inPane(c[0], c[1]) > -1) wiped += d;
+      } else stamp(c[0], c[1], r, .5);
+      last = c; start();
+      if (!hintOff && wiped > 140) { hintOff = true; if (hint) hint.classList.add('is-gone'); }
+    }
+    FOG = {
+      el: cv,
+      // nyitány: valaki belülről végighúzza a kezét az üvegen
+      auto: function (delay) {
+        autoT = setTimeout(function () {
+          var p = PANES[1], q = PANES[2], y0 = p[1] + (p[3] - p[1]) * .42;
+          var pts = [], N = 26;
+          for (var i = 0; i <= N; i++) {
+            var u = i / N;
+            pts.push([p[0] + 8 + (q[2] - p[0] - 16) * u, y0 + Math.sin(u * Math.PI * 1.6) * 12 + u * 10]);
+          }
+          var k = 1;
+          var step = function () {
+            if (k > N) { autoT = null; if (hint) hint.classList.add('is-on'); return; }
+            stroke(pts[k - 1][0], pts[k - 1][1], pts[k][0], pts[k][1], 15, .55); k++;
+            start(); autoT = setTimeout(step, 30);
+          };
+          step();
+        }, delay || 0);
+      }
+    };
+    img.decode().catch(function () {}).then(function () {
+      if (!img.naturalWidth) return;
+      ok = true; readPos(); compose(); dirty = false; start();
+    });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { vis = es[0].isIntersecting; if (vis) start(); else stop(); }).observe(heroEl);
+    if (canHover) {
+      heroEl.addEventListener('pointermove', function (e) {
+        if (e.pointerType !== 'mouse' || !introDone) return;
+        wipeAt(e.clientX, e.clientY, 26);
+        var c = toC(e.clientX, e.clientY);
+        if (window.__cursor) window.__cursor.classList.toggle('is-glass', !!c && inPane(c[0], c[1], 4) > -1 && !e.target.closest('a, button'));
+      }, { passive: true });
+      heroEl.addEventListener('pointerleave', function () { last = null; if (window.__cursor) window.__cursor.classList.remove('is-glass'); });
+    } else {
+      heroEl.addEventListener('touchstart', function (e) { last = null; if (introDone) wipeAt(e.touches[0].clientX, e.touches[0].clientY, 30); }, { passive: true });
+      heroEl.addEventListener('touchmove', function (e) { if (introDone) wipeAt(e.touches[0].clientX, e.touches[0].clientY, 30); }, { passive: true });
+      heroEl.addEventListener('touchend', function () { last = null; }, { passive: true });
+    }
+    window.addEventListener('resize', readPos);
   })();
 
   /* ------------------------------------------------------------------ menüsor */
@@ -895,27 +1044,64 @@
   var signOn = $('.sign--on');
   if (reduced) {
     gsap.set('.rv', { opacity: 1, y: 0 });
+    $$('.nh').forEach(function (h) { h.classList.add('is-lit'); });
     neons.forEach(function (n) { n.draw(1); }); if (helix) helix.draw(1);
     gsap.set(signOn, { opacity: 1 });
   } else {
     ScrollTrigger.batch('.rv', { start: 'top 88%', once: true, onEnter: function (els) { gsap.to(els, { opacity: 1, y: 0, duration: 1.3, ease: 'expo.out', stagger: 0.1, overwrite: true }); } });
+    var ignite = function (h) {
+      // mint egy igazi neoncső: szabálytalan villanások betűnként, aztán áll a fény
+      h.classList.add('is-in');
+      var ls = $$('.nl', h), left = ls.length;
+      if (!left || !ls[0].animate) { h.classList.add('is-lit'); return; }
+      ls.forEach(function (el, i) {
+        var r = Math.random(), a = el.animate([
+          { opacity: .13 }, { opacity: .9, offset: .12 }, { opacity: .18, offset: .24 }, { opacity: .75, offset: .34 },
+          { opacity: .25, offset: .5 }, { opacity: 1, offset: .62 }, { opacity: 1 }
+        ], { duration: 520 + r * 380, delay: i * 38 + Math.random() * 260, easing: 'linear', fill: 'both' });
+        a.onfinish = function () {
+          if (--left) return;
+          h.classList.add('is-lit');
+          $$('.nl', h).forEach(function (x) { x.getAnimations().forEach(function (y) { y.cancel(); }); });
+        };
+      });
+    };
     $$('.lm').forEach(function (h) {
+      if (h.classList.contains('nh')) {
+        ScrollTrigger.create({ trigger: h, start: 'top 86%', once: true, onEnter: function () { ignite(h); } });
+        return;
+      }
       ScrollTrigger.create({ trigger: h, start: 'top 90%', once: true, onEnter: function () {
         h.classList.add('is-in');
         gsap.to($$('.w > span', h), { yPercent: 0, duration: 1.3, ease: 'expo.out', stagger: 0.08, overwrite: true });
       } });
     });
+    // fotók: párás üvegként érkeznek, egy puha mozdulat balról jobbra letörli a párát
+    var hazeIn = function (box) { var hz = document.createElement('div'); hz.className = 'haze'; hz.setAttribute('aria-hidden', 'true'); box.appendChild(hz); return hz; };
+    var wipe = function (hz, delay) {
+      gsap.to(hz, { xPercent: 100, duration: 1.9, delay: delay || 0, ease: 'power2.inOut', onComplete: function () { hz.style.display = 'none'; } });
+    };
     $$('.rv-img').forEach(function (fig) {
-      var cur = document.createElement('div'); cur.className = 'cur'; fig.appendChild(cur);
-      var img = $('img', fig);
-      gsap.set(img, { scale: 1.12 });
-      // a réteget csak a felfedés körül emeljük ki (Mac Chrome villanás ellen)
+      var hz = hazeIn(fig), img = $('img', fig);
+      gsap.set(img, { scale: 1.06 });
       ScrollTrigger.create({ trigger: fig, start: 'top bottom+=35%', once: true, onEnter: function () { img.style.willChange = 'transform'; } });
-      ScrollTrigger.create({ trigger: fig, start: 'top 86%', once: true, onEnter: function () {
-        gsap.to(cur, { scaleY: 0, duration: 1.4, ease: 'expo.inOut', onComplete: function () { cur.style.visibility = 'hidden'; } });
-        gsap.to(img, { scale: 1, duration: 2, ease: 'expo.out', clearProps: 'transform', onComplete: function () { img.style.willChange = ''; } });
+      ScrollTrigger.create({ trigger: fig, start: 'top 84%', once: true, onEnter: function () {
+        wipe(hz);
+        gsap.to(img, { scale: 1, duration: 2.6, ease: 'power3.out', clearProps: 'transform', onComplete: function () { img.style.willChange = ''; } });
       } });
     });
+    // a kirakat ablaka: táblánként törlődik le a pára, egymás után
+    (function () {
+      var win = $('#win'); if (!win) return;
+      var panes = $$('.win__pane', win).filter(function (pn) { return getComputedStyle(pn).display !== 'none'; });
+      var hzs = panes.map(hazeIn);
+      ScrollTrigger.create({ trigger: win, start: 'top 78%', once: true, onEnter: function () { hzs.forEach(function (hz, i) { wipe(hz, i * .32); }); } });
+      if (canHover) {
+        // egérrel görgetve: a pult lassan elúszik a keretek mögött, az üvegen végigfut egy csillanás
+        gsap.fromTo($('.win__glass img', win), { xPercent: 3.5 }, { xPercent: -3.5, ease: 'none', scrollTrigger: { trigger: win, start: 'top bottom', end: 'bottom top', scrub: true } });
+        gsap.fromTo($('.win__sheen', win), { xPercent: -60 }, { xPercent: 230, ease: 'none', scrollTrigger: { trigger: win, start: 'top 85%', end: 'bottom 15%', scrub: true } });
+      }
+    })();
     $$('.rq__stars').forEach(function (el, k) {
       var s = $$('i', el); gsap.set(s, { opacity: .18 });
       ScrollTrigger.create({ trigger: el, start: 'top 90%', once: true, onEnter: function () {
@@ -1041,7 +1227,7 @@
   /* ------------------------------------------------------------------ kurzor: kis pont, linkek fölött vékony kör, fotón nagyobb pont (csak egérrel) */
   if (canHover) {
     var cur = document.createElement('div');
-    cur.className = 'cursor'; cur.setAttribute('aria-hidden', 'true');
+    cur.className = 'cursor'; cur.setAttribute('aria-hidden', 'true'); window.__cursor = cur;
     document.body.appendChild(cur);
     // kis lámpa: halvány kék fény követi az egeret a sötét részeken, kicsit lomhábban, mint a kurzor
     var lamp = document.createElement('div'); lamp.className = 'lamp'; lamp.setAttribute('aria-hidden', 'true'); document.body.appendChild(lamp);
@@ -1064,7 +1250,7 @@
     document.addEventListener('mouseover', function (e) {
       var el = e.target; if (!el.closest) return;
       var link = !!el.closest('a, button, [role="tab"], [role="radio"], label');
-      var photo = !link && !!el.closest('.tour__ph, .ph, .menu__photo, .coffee__photo, .hours__wide');
+      var photo = !link && !!el.closest('.tour__ph, .ph, .win, .menu__photo, .coffee__photo, .hours__wide');
       var light = !!el.closest('[data-cur="light"]');
       cur.classList.toggle('is-link', link); cur.classList.toggle('is-photo', photo);
       cur.classList.toggle('is-light', light); lamp.classList.toggle('is-light', light);

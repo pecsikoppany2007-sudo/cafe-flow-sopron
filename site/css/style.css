@@ -592,3 +592,56 @@ h3 { font-size: clamp(1.35rem, 1.9vw, 1.65rem); }
   .fl__t { font-size: 1.3rem; }
   .tabs button { font-size: 1.2rem; }
 }
+
+/* v12: párás kirakat egy hideg estén. A nyitókép üvegtábláin pára ül, egérrel vagy ujjal letörölhető, lassan visszapárásodik, néha lecsorog egy csepp. */
+.hero__fog { opacity: 0; pointer-events: none; z-index: 2; }
+.no-intro .hero__fog, .intro-done .hero__fog { opacity: 1; }
+.hero__hint { position: absolute; z-index: 3; right: var(--gut); bottom: clamp(40px, 9vh, 96px); margin: 0; max-width: 17rem; text-align: right; font: 600 11px/1.5 var(--body); letter-spacing: .2em; text-transform: uppercase; color: rgba(236, 240, 250, .62); pointer-events: none; opacity: 0; transition: opacity 1.2s; }
+.hero__hint.is-on { opacity: 1; }
+.hero__hint.is-gone { opacity: 0; transition-duration: .8s; }
+.hero__hint::before { content: ''; display: block; width: 26px; height: 1px; margin: 0 0 12px auto; background: rgba(140, 170, 255, .7); box-shadow: 0 0 6px rgba(91, 140, 255, .8); }
+.cursor.is-glass::before { width: 30px; height: 30px; border-radius: 15px; opacity: .9; background: rgba(240, 244, 255, .1); box-shadow: inset 0 0 0 1px rgba(240, 244, 255, .55), 0 0 14px rgba(91, 140, 255, .35); }
+@media (max-width: 767px) {
+  .hero__hint { top: calc(66% - 44px); bottom: auto; max-width: 13rem; font-size: 10px; }
+}
+
+/* sötét szakaszok címei: kialudt neoncső, ami odaérve betűnként kigyullad */
+.nh .nl { display: inline-block; }
+.nh { color: #f3f6ff; text-shadow: 0 0 1px rgba(255, 255, 255, .55), 0 0 12px rgba(91, 140, 255, .5), 0 0 34px rgba(91, 140, 255, .2); }
+.js .nh:not(.is-lit) .nl { opacity: .13; }
+.nh .w { overflow: visible !important; }
+
+/* fotók: párás üvegként érkeznek, és egy puha mozdulattal balról jobbra letörlődnek (nem függöny, nem alulról felfelé) */
+.ph .cur { display: none; }
+.haze { position: absolute; top: -2%; bottom: -2%; left: -62%; width: 162%; z-index: 2; pointer-events: none; will-change: transform;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, var(--haze) 38%, var(--haze) 100%); }
+.haze { --haze: rgba(196, 208, 232, .8); }
+[data-cur="light"] .haze { --haze: rgba(241, 236, 226, .86); }
+.haze::after { content: ''; position: absolute; inset: 0 0 0 38%; background: radial-gradient(60% 50% at 30% 60%, rgba(255, 255, 255, .16), rgba(255, 255, 255, 0)); }
+
+/* bemutatkozás: a kirakat ablaka közelről, három üvegtábla a pultra */
+.intro { padding: clamp(90px, 12vw, 160px) var(--gut); }
+.intro__grid { align-items: center; row-gap: 48px; }
+.intro__text { grid-column: 1 / 6; display: block; }
+.intro__text h2 { font-size: clamp(2.3rem, 3.9vw, 3.5rem); margin: 0 0 .7em; }
+.intro__text > p { max-width: 31rem; }
+.intro__text > p:first-of-type { margin-top: 0; }
+.intro__rating { margin-top: 1.8em; }
+.intro__rating strong { font-size: 2.5rem; }
+.win { --fr: clamp(8px, .85vw, 12px); grid-column: 6 / 13; position: relative; margin: 0; aspect-ratio: 5 / 4; background: var(--ink); border: var(--fr) solid var(--ink); overflow: hidden; box-shadow: 0 30px 60px -30px rgba(23, 32, 56, .55); }
+.win__glass { position: absolute; inset: 0; overflow: hidden; }
+.win__glass img { position: absolute; top: 0; left: -6%; width: 112%; max-width: none; height: 100%; object-fit: cover; object-position: 38% 55%; }
+.win__pane { position: absolute; top: 0; bottom: 0; left: calc(var(--p) * 33.333%); width: 33.334%; overflow: hidden; box-shadow: inset 0 18px 26px -18px rgba(0, 0, 0, .5), inset 0 -1px 0 rgba(255, 255, 255, .06); }
+.win__pane + .win__pane { border-left: var(--fr) solid var(--ink); }
+.win__sheen { position: absolute; top: -10%; bottom: -10%; left: 0; width: 46%; z-index: 3; pointer-events: none; background: linear-gradient(104deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .075) 48%, rgba(255, 255, 255, .02) 56%, rgba(255, 255, 255, 0) 64%); transform: translateX(-30%); }
+.win .haze { --haze: rgba(214, 222, 238, .82); }
+@media (max-width: 1023px) {
+  .intro__text { grid-column: 1 / 13; }
+  .win { grid-column: 1 / 13; }
+}
+@media (max-width: 767px) {
+  .win { aspect-ratio: 4 / 5; }
+  .win__pane { width: 50%; left: calc(var(--p) * 50%); }
+  .win__pane[style*="--p:2"] { display: none; }
+  .win__glass img { object-position: 30% 55%; }
+}
