@@ -6,7 +6,7 @@ random.seed(7); np.random.seed(7)
 W, H = 1000, 760
 on = Image.open('site/img/hero-on-2400.webp').convert('RGB').resize((W, H), Image.LANCZOS)
 # üvegtáblák (x0, y0, x1, y1) a 1000x760-as képen
-PANES = [(323, 283, 440, 578), (475, 307, 610, 585), (641, 317, 755, 600), (783, 312, 855, 615)]
+PANES = [(323, 283, 440, 578), (475, 307, 610, 585), (641, 317, 755, 600), (783, 312, 855, 432)]
 m = Image.new('L', (W, H), 0); d = ImageDraw.Draw(m)
 for x0, y0, x1, y1 in PANES: d.rectangle((x0 + 2, y0 + 2, x1 - 2, y1 - 2), fill=255)
 m = m.filter(ImageFilter.GaussianBlur(2.2))

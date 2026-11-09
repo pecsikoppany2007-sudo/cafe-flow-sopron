@@ -813,7 +813,7 @@
     var stack = $('.hero__stack'); if (!stack) return;
     var CW = 750, CH = 570, S = CW / 1000;
     // üvegtáblák a 1000x760-as képen (forras/para.py-val egyezik)
-    var PANES = [[323, 283, 440, 578], [475, 307, 610, 585], [641, 317, 755, 600], [783, 312, 855, 615]].map(function (p) { return p.map(function (v) { return v * S; }); });
+    var PANES = [[323, 283, 440, 578], [475, 307, 610, 585], [641, 317, 755, 600], [783, 312, 855, 432]].map(function (p) { return p.map(function (v) { return v * S; }); });
     var cv = document.createElement('canvas'); cv.className = 'hero__l hero__fog'; cv.setAttribute('aria-hidden', 'true');
     cv.width = CW; cv.height = CH;
     var ctx = cv.getContext('2d'); if (!ctx) return;
@@ -823,7 +823,7 @@
     gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(.5, 'rgba(0,0,0,.8)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
     bx.fillStyle = gr; bx.fillRect(0, 0, 64, 64);
     stack.appendChild(cv);
-    var img = new Image(); img.decoding = 'async'; img.src = 'img/hero-fog.webp?v=12';
+    var img = new Image(); img.decoding = 'async'; img.src = 'img/hero-fog.webp?v=13';
     var ok = false, vis = true, run = false, dirty = true, hasMask = false, lastWipe = 0, lastDecay = 0, drops = [], nextDrop = 0, autoT = null;
     var hint = $('#heroHint'), wiped = 0, hintOff = false;
     function compose() {
